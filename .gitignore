@@ -1,2 +1,4 @@
 *.ncrunchsolution
 build/
+tools/.nuget/**/
+.vs

@@ -66,10 +66,10 @@ Copyright = '(c) 2015 . All rights reserved.'
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('New-DotNetProjectStructure')
+#FunctionsToExport = @('New-DotNetProjectStructure','New-GitHubRepository')
 
 # Cmdlets to export from this module
-CmdletsToExport = @('New-DotNetProjectStructure')
+CmdletsToExport = @('New-DotNetProjectStructure','New-GitHubRepository')
 
 # Variables to export from this module
 VariablesToExport = '*'

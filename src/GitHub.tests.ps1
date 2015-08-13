@@ -4,18 +4,33 @@
 # You can download Pester from http://go.microsoft.com/fwlink/?LinkID=534084
 #
 
-Describe "New-GitHubRepository" {
-	Context "When the repository for the user does not exist" {
+Import-Module .\src\GitHub.psm1
+
+$accessToken =  [Environment]::GetEnvironmentVariable('github_access_token', 'User')
+$organizationName = [Environment]::GetEnvironmentVariable('github_organization', 'User')
+$name = "integrationTestRepositoryUsingGitHubAPI"
+
+Describe "Creating a new GitHub repository" {
+	
+	Context "For a user" {
+
+		New-GitHubRepository -AccessToken $accessToken -Name $name -OutVariable repository
+
+		$login = $repository.owner.login
+
 		It "creates the repository on GitHub" {
-			$actual | Should Be $null
+			$repository.clone_url | Should Be "https://github.com/$login/$name.git"
+		}
+	}
+	
+	Context "For an organization" {
+
+		New-GitHubRepository -AccessToken $accessToken -Name $name -OrganizationName $organizationName -OutVariable repository
+
+		It "creates the repository on GitHub" {
+			$repository.clone_url | Should Be "https://github.com/$organizationName/$name.git"
 		}
 	}
 }
 
-Describe "New-GitHubRepositoryForOrganization" {
-	Context "When the repository for the organization does not exist" {
-		It "creates the repository on GitHub" {
-			$actual | Should Be $null
-		}
-	}
-}
+Remove-Module GitHub
