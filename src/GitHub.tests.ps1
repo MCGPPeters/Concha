@@ -7,7 +7,7 @@
 Import-Module .\src\GitHub.psm1
 
 $accessToken =  [Environment]::GetEnvironmentVariable('github_access_token', 'User')
-$organizationName = [Environment]::GetEnvironmentVariable('github_organization', 'User')
+$organizationName = "GitHubAPITesting"
 $name = "integrationTestRepositoryUsingGitHubAPI"
 
 Describe "Creating a new GitHub repository" {
@@ -24,9 +24,9 @@ Describe "Creating a new GitHub repository" {
 	}
 	
 	Context "For an organization" {
-
+	
 		New-GitHubRepository -AccessToken $accessToken -Name $name -OrganizationName $organizationName -OutVariable repository
-
+	
 		It "creates the repository on GitHub" {
 			$repository.clone_url | Should Be "https://github.com/$organizationName/$name.git"
 		}

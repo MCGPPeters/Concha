@@ -41,11 +41,11 @@ function New-GitHubRepository {
 			name = $Name;
 			description = $Description;
 			homepage = $Homepage;
-			private = $IsPrivate;
-			has_issues = $HasIssues;
-			has_wiki = $HasWiki;
-			has_downlaods = $HasDownloads;
-			auto_init = $AutoInit;
+			private = $IsPrivate.ToBool();
+			has_issues = $HasIssues.ToBool();
+			has_wiki = $HasWiki.ToBool();
+			has_downloads = $HasDownloads.ToBool();
+			auto_init = $AutoInit.ToBool();
 			gitignore_template = $GitIgnoreTemplate;
 			license_template = $LicenseTemplate
 		}
@@ -64,9 +64,19 @@ function New-GitHubRepository {
 		}
 
 		$Headers.Authorization = "token $AccessToken"
+		$bodyAsJSON = (ConvertTo-Json $body -Compress)
+
+		Write-Host $bodyAsJSON
+		Write-Host $body
 	}
 	Process	{
-		Return Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body (ConvertTo-Json $body -Compress) -Verbose
+		try{
+			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body $bodyAsJSON -Verbose
+		}
+		catch {
+			Write-Host -ForegroundColor Red "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+			Write-Host -ForegroundColor Red "StatusDescription:" $_.Exception.Response.StatusDescription
+		}
 	}
 
 }
