@@ -65,12 +65,9 @@ function New-GitHubRepository {
 
 		$Headers.Authorization = "token $AccessToken"
 		$bodyAsJSON = (ConvertTo-Json $body -Compress)
-
-		Write-Host $bodyAsJSON
-		Write-Host $body
 	}
 	Process	{
-		try{
+		try {
 			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body $bodyAsJSON -Verbose
 		}
 		catch {
@@ -78,11 +75,43 @@ function New-GitHubRepository {
 			Write-Host -ForegroundColor Red "StatusDescription:" $_.Exception.Response.StatusDescription
 		}
 	}
-
 }
 
-#$VersionMediaType = "application/vnd.github.v3+json"
-#Invoke-WebRequest -Method Post -Uri "https://api.github.com/repos/eVisionSoftware/eVision.InteractivePnid/forks" -Headers @{"Accept"="application/vnd.github.v3+json";"Authorization"="token $github_access_token"}
+function New-GitHubFork {
+	[CmdletBinding(DefaultParameterSetName='user')]
+	param(
+		[Parameter(Mandatory = $true, Position = 0)]
+		[string] $AccessToken,
+		[Parameter(Mandatory = $true, Position = 1)]
+		[string] $Owner,
+		[Parameter(Mandatory = $true, Position = 1)]
+		[string] $RepositoryName,
+		[Parameter(Mandatory = $true, ParameterSetName='organization')]
+		[string] $OrganizationName
+	)
+	Begin {
+		$uri = "$BaseURI/repos/$Owner/$RepositoryName/forks"
+
+		switch ($PsCmdlet.ParameterSetName) {
+			'organization' {
+				$uri += "?organization=$OrganizationName"			
+			}
+		}
+
+		$Headers.Authorization = "token $AccessToken"
+	}
+	Process {
+		try {
+			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Verbose
+		}
+		catch {
+			Write-Host $_.Exception.Response
+			Write-Host -ForegroundColor Red "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+			Write-Host -ForegroundColor Red "StatusDescription:" $_.Exception.Response.StatusDescription
+		}
+	}
+}
+
 ## create private fork of eVisionSoftware/eVision.InteractivePnid
 #Invoke-WebRequest -Method Post -Uri "https://api.github.com/repos/eVisionSoftware/eVision.InteractivePnid/forks" -Headers @{"Accept"="application/vnd.github.v3+json";"Authorization"="token $github_access_token"}
 #

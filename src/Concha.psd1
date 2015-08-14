@@ -69,7 +69,7 @@ Copyright = '(c) 2015 . All rights reserved.'
 #FunctionsToExport = @('New-DotNetProjectStructure','New-GitHubRepository')
 
 # Cmdlets to export from this module
-CmdletsToExport = @('New-DotNetProjectStructure','New-GitHubRepository')
+CmdletsToExport = @('New-DotNetProjectStructure','New-GitHubRepository', 'New-GitHubFork')
 
 # Variables to export from this module
 VariablesToExport = '*'
