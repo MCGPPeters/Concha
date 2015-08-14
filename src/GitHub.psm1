@@ -71,8 +71,8 @@ function New-GitHubRepository {
 			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body $bodyAsJSON -Verbose
 		}
 		catch {
-			Write-Host -ForegroundColor Red "StatusCode:" $_.Exception.Response.StatusCode.value__ 
-			Write-Host -ForegroundColor Red "StatusDescription:" $_.Exception.Response.StatusDescription
+			"StatusCode:" + $_.Exception.Response.StatusCode.value__ 
+			"StatusDescription:" + $_.Exception.Response.StatusDescription
 		}
 	}
 }
@@ -105,9 +105,34 @@ function New-GitHubFork {
 			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Verbose
 		}
 		catch {
-			Write-Host $_.Exception.Response
-			Write-Host -ForegroundColor Red "StatusCode:" $_.Exception.Response.StatusCode.value__ 
-			Write-Host -ForegroundColor Red "StatusDescription:" $_.Exception.Response.StatusDescription
+			"StatusCode:" + $_.Exception.Response.StatusCode.value__ 
+			"StatusDescription:" + $_.Exception.Response.StatusDescription
+		}
+	}
+}
+
+function Remove-GitHubRepository {
+	[CmdletBinding(DefaultParameterSetName='user')]
+	param(
+		[Parameter(Mandatory = $true, Position = 0)]
+		[string] $AccessToken,
+		[Parameter(Mandatory = $true, Position = 1)]
+		[string] $Owner,
+		[Parameter(Mandatory = $true, Position = 1)]
+		[string] $RepositoryName
+	)
+	Begin {
+		$uri = "$BaseURI/repos/$Owner/$RepositoryName"
+
+		$Headers.Authorization = "token $AccessToken"
+	}
+	Process {
+		try {
+			Invoke-WebRequest -Method Delete -Uri $uri -Headers $Headers -Verbose
+		}
+		catch {
+			"StatusCode:" + $_.Exception.Response.StatusCode.value__ 
+			"StatusDescription:" + $_.Exception.Response.StatusDescription
 		}
 	}
 }
