@@ -1,4 +1,5 @@
 *.ncrunchsolution
 build/
 tools/.nuget/**/
-.vs
+.vs/**/
+*.suo
