@@ -1,29 +1,14 @@
-<#
-	Initialize a new git repository with support for the branching model
-#>
+$scriptFolder = $MyInvocation.MyCommand.Path
+$folder = Split-Path $scriptFolder
 
-Set-StrictMode –version latest
-
-function Initialize-GitFlow {
-	[CmdletBinding()]
-	Param(
+Function Start-Build {
+	Param (
 		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $Path
+		[string] $Path 
 	)
-	Process
-	{				
-		Push-Location -Path $Path
-		git flow init -fd
-		Pop-Location
-	}
-}
-
-function Start-Feature {
-	[CmdletBinding()]
-	
 	DynamicParam {
 		# Set the dynamic parameters' name
-		$ParameterName = 'GitHubFeature'
+		$ParameterName = 'Configuration'
 		
 		# Create the dictionary 
 		$RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
@@ -40,7 +25,8 @@ function Start-Feature {
 		$AttributeCollection.Add($ParameterAttribute)
 
 		# Generate and set the ValidateSet 
-		$arrSet = Get-GitHubIssue
+		$arrSet = Get-ChildItem -Filter *.ps1 -File -Path .\configuration | Select-Object -ExpandProperty Name
+        
 		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
 		# Add the ValidateSet to the attributes collection
@@ -51,11 +37,14 @@ function Start-Feature {
 		$RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
 		return $RuntimeParameterDictionary
     }
-
-    begin {
-        # Bind the parameter to a friendly variable
-        $GitHubFeature = $PsBoundParameters[$ParameterName]
-		
-		
-		
+    Begin {
+        Get-Module Psake  | Remove-Module
+		Import-Module (Get-ChildItem -Directory "$scriptFolder\.Nuget\Psake.*\tools\Psake.psm1" | Select-Object -First 1)
     }
+    Process {
+        Invoke-Psake (Join-Path -Path "$scriptFolder\configuration" -ChildPath $Configuration)
+    }
+    End {
+        Remove-Module Psake   
+    }
+}
