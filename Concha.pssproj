@@ -34,7 +34,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Build.ps1" />
+    <Compile Include="build\Build.ps1" />
+    <Compile Include="build\Build.psm1" />
+    <Compile Include="build\configuration\acceptance.ps1" />
+    <Compile Include="build\configuration\develop.ps1" />
+    <Compile Include="build\configuration\local.ps1" />
+    <Compile Include="build\configuration\release.ps1" />
+    <Compile Include="build\configuration\test.ps1" />
+    <Compile Include="build\LifeCycle.ps1" />
+    <Compile Include="build\tasks\Clean.ps1" />
+    <Compile Include="build\tasks\Deploy.ps1" />
+    <Compile Include="build\tasks\EnsureDesiredState.ps1" />
+    <Compile Include="build\tasks\Merge.ps1" />
+    <Compile Include="build\tasks\Package.ps1" />
+    <Compile Include="build\tasks\RestoreDepencies.ps1" />
+    <Compile Include="build\tasks\Test.ps1" />
     <Compile Include="Default.ps1" />
+    <Compile Include="src\build\Component.psm1" />
+    <Compile Include="src\build\Solution.psm1" />
+    <Compile Include="src\configuration\debug.info" />
+    <Compile Include="src\configuration\SolutionConfiguration.ps1" />
+    <Compile Include="src\configuration\SolutionConfigurationData.psd1" />
+    <Compile Include="src\configuration\Solution\localhost.mof" />
     <Compile Include="src\GitHub.tests.ps1" />
     <Compile Include="src\Concha.psd1" />
     <Compile Include="src\GitFlow.tests.ps1" />
@@ -44,7 +65,15 @@
     <Compile Include="src\Solution.psm1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="build\" />
+    <Folder Include="build\configuration\" />
+    <Folder Include="build\configuration\pullrequest.ps1\" />
+    <Folder Include="build\tasks\" />
+    <Folder Include="samples\" />
     <Folder Include="src\" />
+    <Folder Include="src\build\" />
+    <Folder Include="src\configuration\" />
+    <Folder Include="src\configuration\Solution\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
