@@ -1,7 +1,73 @@
-$BaseUri = "https://api.github.com"
-$Headers = @{"Accept" = "application/vnd.github.v3+json"}
+Set-Variable -Name BaseUri -Value "https://api.github.com" -Option Constant
+Set-Variable -Name Headers -Value @{"Accept" = "application/vnd.github.v3+json"} -Option Constant
 
+<#
+.Synopsis
+   Set the OAuth access token that will be used for authentication when using the GitHub API using this module.
+   The access token will be stored using a hashing algorithm in a machine level environment variable named "GitHubAccessTokenHash"
+.DESCRIPTION
+   Long description
+.EXAMPLE
+   Set-GitHubAccessToken -SecuredAccessToken ed4abf7da4ae1091161c89819f19326129a6a2be
+.INPUTS
+   Inputs to this cmdlet (if any)
+.NOTES
+   General notes
+.COMPONENT
+   The component this cmdlet belongs to
+.ROLE
+   The role this cmdlet belongs to
+.FUNCTIONALITY
+   The functionality that best describes this cmdlet
+#>
+Function Set-GitHubAccessToken
+{
+    [CmdletBinding(PositionalBinding=$false)]
+    Param
+    (
+        # The personal access token that can be obtained from GitHub (https://github.com/settings/tokens) for authentication (OAuth)  
+        [Parameter(Mandatory=$true, 
+                   ValueFromPipeline=$true)]
+        [ValidateNotNullOrEmpty()]
+        [System.Security.SecureString]
+		$SecuredAccessToken
+    )
 
+    Begin
+    {
+    }
+    Process
+    {
+		$tokenHash = ConvertFrom-SecureString $SecuredAccessToken
+        [Environment]::SetEnvironmentVariable("GitHubAccessTokenHash", $tokenHash, "Machine")
+    }
+    End
+    {
+    }
+}
+
+Function Get-GitHubAccessToken
+{
+	[CmdletBinding(PositionalBinding=$false)]
+	Param()
+	
+	Begin
+	{
+		
+	}
+	
+	Process
+	{
+		$securedAccessToken = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("GitHubAccessTokenHash", "Machine"))
+		$accessToken = New-Object System.Management.Automation.PSCredential('UserName', $securedAccessToken)
+		$accessToken.GetNetworkCredential().Password
+	}
+	
+	End
+	{
+		
+	}
+}
 
 <#
 	New-GitHubRepository
@@ -11,8 +77,8 @@ $Headers = @{"Accept" = "application/vnd.github.v3+json"}
 function New-GitHubRepository {
 	[CmdletBinding(DefaultParameterSetName='user')]
 	param(
-		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $AccessToken,
+		[Parameter(Mandatory = $true)]
+		[string] $AccessToken = {Get-GitHubAccessToken},
 		[Parameter(Mandatory = $true, Position = 1)]
 		[string] $Name,
 		[Parameter(Mandatory = $true, ParameterSetName='organization')]
@@ -136,40 +202,40 @@ function Remove-GitHubRepository {
 	}
 }
 
-function Get-GitHubIssue {
+Function Get-GitHubIssue 
+{
 	param(
 		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $AccessToken,
+		[string] $AccessToken = {Get-GitHubAccessToken},
 		[Parameter(Mandatory = $true, Position = 1)]
 		[string] $Owner,
 		[Parameter(Mandatory = $true, Position = 2)]
 		[string] $RepositoryName,
-		[Parameter(Mandatory = False, Default = "open")]
+		[Parameter(Mandatory = $False, Default = "open")]
 		[ValidateSetAttribute("open", "closed", "all")]
 		[string] $State,
-		[Parameter(Mandatory = False)]
+		[Parameter(Mandatory = $False)]
 		[string] $Milestone,
-		[Parameter(Mandatory = False)]
-		[string] $State,
+		[Parameter(Mandatory = $False)]
 		# Can be the name of a user. Pass in none for issues with no assigned user, and * for issues assigned to any user.
-		[Parameter(Mandatory = False)]
+		[Parameter(Mandatory = $False)]
 		[string] $Assignee,
-		[Parameter(Mandatory = False)]
+		[Parameter(Mandatory = $False)]
 		[string] $Creator,
-		[Parameter(Mandatory = False)]
+		[Parameter(Mandatory = $False)]
 		[string] $Mentioned,
-		[Parameter(Mandatory = False)]
+		[Parameter(Mandatory = $False)]
 		[string[]] $Labels,
-		[Parameter(Mandatory = False, Default = "created")]
+		[Parameter(Mandatory = $False, Default = "created")]
 		[ValidateSetAttribute("updated", "comments", "created")]
 		[string] $Sort,
-		[Parameter(Mandatory = False, Default = "desc")]
+		[Parameter(Mandatory = $False, Default = "desc")]
 		[ValidateSetAttribute("asc", "desc")]
 		[string] $Direction,
-		[Parameter(Mandatory = False, Default = "desc")]
+        # Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+		[Parameter(Mandatory = $False, Default = "desc")]
 		[ValidateSetAttribute("asc", "desc")]
 		[string] $Since
-since	string	Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
 	)
 	Begin {
 		$uri = "$BaseURI/repos/$Owner/$RepositoryName/issues"
@@ -181,8 +247,7 @@ since	string	Only issues updated at or after this time are returned. This is a t
 			
 			$body = Get-AllBoundParameters -CommandName $MyInvocation.MyCommand.Name
 			
-}
-			
+		
 			Invoke-WebRequest -Method Get -Uri $uri -Headers $Headers -Verbose
 		}
 		catch {
@@ -191,7 +256,8 @@ since	string	Only issues updated at or after this time are returned. This is a t
 	}
 }
 
-function Get-SplattingHashTable {
+function Get-SplattingHashTable 
+{
     <#
     .Synopsis
     Gets PowerShell Splatting HashTables for a command invocation including Default values and filters out non provided optional parameters
@@ -206,53 +272,18 @@ function Get-SplattingHashTable {
         [System.Management.Automation.CommandInfo] 
 		$CommandInfo
     )
-	foreach($h in $CommandInfo.Parameters.GetEnumerator()) {
-				try {
-					$key = $h.Key
-					$val = Get-Variable -Name $key -ErrorAction Stop | Select-Object -ExpandProperty Value -ErrorAction Stop
-					if (([String]::IsNullOrEmpty($val) -and (!$PSBoundParameters.ContainsKey($key)))) {
-						throw "A blank value that wasn't supplied by the user."
-					}
-					$params[$key] = $val
-				} catch {}
-}
-
-function Get-AllBoundParameters {
-    <#
-    .Synopsis
-    Gets PowerShell Splatting HashTables for all parameter sets for a command
-    .Parameter CommandName
-    The name of the command that will have PowerShell Splatting HashTables generated for
-    .Example
-    Get-AllBoundParameters -CommandName Add-AzureAccount
-    #>
-    [CmdletBinding()]
-    param (
-        [InvocationInfo] 
-		$In
-    )
-
-    $CommandList = Get-Command -CommandType Cmdlet,Function -Name $CommandName;
-
-    ### Throw an exception if no commands were found
-    if (!$CommandList) { throw 'No commands found matching the command name specified by the user.'; }
-	
-	if ($CommandList.Count -gt 1) { 
-		throw 'More then one command found with the specified command name : ' + $CommandList
-		}
-
-	$command = Select-Object -InputObject $CommandList -First 1
-
-	foreach ($ParameterSet in $Command.ParameterSets) {
-		if (!($ParameterSet.Parameters)) { continue; }
-
-		$ParameterList = $ParameterSet.Parameters;
-
-		$parameters = @{
-		foreach ($Parameter in $ParameterList) {
-			$HT += "`n`t{0} = '';" -f $Parameter.Name;
-		}
-		$HT += "`n}";
+	foreach($h in $CommandInfo.Parameters.GetEnumerator()) 
+	{
+		try 
+		{
+			$key = $h.Key
+			$val = Get-Variable -Name $key -ErrorAction Stop | Select-Object -ExpandProperty Value -ErrorAction Stop
+			if (([String]::IsNullOrEmpty($val) -and (!$PSBoundParameters.ContainsKey($key)))) {
+				throw "A blank value that wasn't supplied by the user."
+			}
+			$params[$key] = $val
+		} 
+		catch {}
 	}
 }
 

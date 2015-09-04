@@ -1,7 +1,6 @@
 
-function Get-Version {
-    Write-Verbose 'message' @{ text="getting git version using $($gitversion_path)" }
-
+Function Get-Version 
+{
     $result = Invoke-Expression "$gitversion_path /u $gitVersionUserName /p $gitVersionPassword"
 
     if ($LASTEXITCODE -ne 0){

@@ -1,9 +1,3 @@
-<#
-	Initialize a new git repository with support for the branching model
-#>
-
-Set-StrictMode –version latest
-
 function Initialize-GitFlow {
 	[CmdletBinding()]
 	Param(
