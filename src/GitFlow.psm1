@@ -14,8 +14,10 @@ function Initialize-GitFlow {
 
 function Start-Feature {
 	[CmdletBinding()]
+	Param())
 	
-	DynamicParam {
+	DynamicParam 
+	{
 		# Set the dynamic parameters' name
 		$ParameterName = 'GitHubFeature'
 		

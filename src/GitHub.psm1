@@ -1,5 +1,5 @@
 Set-Variable -Name BaseUri -Value "https://api.github.com" -Option Constant
-Set-Variable -Name Headers -Value @{"Accept" = "application/vnd.github.v3+json"} -Option Constant
+Set-Variable -Name Headers -Value @{"Accept" = "application/vnd.github.v3+json"} -Option AllScope
 
 <#
 .Synopsis
@@ -38,7 +38,7 @@ Function Set-GitHubAccessToken
     }
     Process
     {
-		$tokenHash = ConvertFrom-SecureString $SecuredAccessToken
+		$tokenHash = ConvertFrom-SecureString -Secure $SecuredAccessToken
         [Environment]::SetEnvironmentVariable("GitHubAccessTokenHash", $tokenHash, "Machine")
     }
     End
@@ -59,7 +59,7 @@ Function Get-GitHubAccessToken
 	Process
 	{
 		$securedAccessToken = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("GitHubAccessTokenHash", "Machine"))
-		$accessToken = New-Object System.Management.Automation.PSCredential('UserName', $securedAccessToken)
+		$accessToken = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList 'UserName', $securedAccessToken
 		$accessToken.GetNetworkCredential().Password
 	}
 	
@@ -70,16 +70,59 @@ Function Get-GitHubAccessToken
 }
 
 <#
+.Synopsis
+   Short description
+.DESCRIPTION
+   Long description
+.EXAMPLE
+   Example of how to use this cmdlet
+.EXAMPLE
+   Another example of how to use this cmdlet
+#>
+Function Get-GitHubAuthenticatedUser
+{
+    [CmdletBinding()]
+    #[OutputType([GitHubUser])]
+    Param
+    (
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
+		[string] $AccessToken = (Get-GitHubAccessToken)
+    )
+
+    Begin 
+    {
+		
+	}
+
+	Process 
+    {
+		try 
+        {
+            $uri = "$BaseURI/user"
+
+		    $Headers.Authorization = "token $AccessToken"
+			Invoke-RestMethod -Method Get -Uri $uri -Headers $Headers -Verbose
+		}
+		catch 
+        {
+			Format-Response -Response $_.Exception.Response | Write-Error
+		}
+	}
+}
+
+<#
 	New-GitHubRepository
 
 	Creates a new repository 
 #>
-function New-GitHubRepository {
+Function New-GitHubRepository 
+{
 	[CmdletBinding(DefaultParameterSetName='user')]
-	param(
+	Param
+    (
+		[Parameter(Mandatory = $false)]
+		[string] $AccessToken = (Get-GitHubAccessToken),
 		[Parameter(Mandatory = $true)]
-		[string] $AccessToken = {Get-GitHubAccessToken},
-		[Parameter(Mandatory = $true, Position = 1)]
 		[string] $Name,
 		[Parameter(Mandatory = $true, ParameterSetName='organization')]
 		[string] $OrganizationName,
@@ -104,8 +147,10 @@ function New-GitHubRepository {
 		[Parameter(Mandatory = $false)]
 		[string] $LicenseTemplate		
 	)
-	Begin {
-		$body = @{
+	Begin 
+    {
+		$body = 
+        @{
 			name = $Name;
 			description = $Description;
 			homepage = $Homepage;
@@ -118,15 +163,19 @@ function New-GitHubRepository {
 			license_template = $LicenseTemplate
 		}
 
-		switch ($PsCmdlet.ParameterSetName) {
-			'organization' {
-					if ($TeamId -eq $null)	{ 
+		switch ($PsCmdlet.ParameterSetName) 
+        {
+			'organization' 
+            {
+					if ($TeamId -eq $null)	
+                    { 
 						$requestBody.team_id = $TeamId;
-						
 					}
 					$uri = "$BaseUri/orgs/$OrganizationName/repos"
 			}
-			'user' {
+			
+            'user' 
+            {
 				$uri = "$BaseUri/user/repos"
 			}
 		}
@@ -134,89 +183,107 @@ function New-GitHubRepository {
 		$Headers.Authorization = "token $AccessToken"
 		$bodyAsJSON = (ConvertTo-Json -InputObject $body -Compress)
 	}
-	Process	{
-		try {
+	Process	
+    {
+		try 
+        {
 			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body $bodyAsJSON -Verbose
 		}
-		catch {
-			Format-Response -Response $_.Exception.Response | Out-Host
+		catch 
+        {
+			Format-Response -Response $_.Exception.Response | Write-Error
 		}
 	}
 }
 
-function New-GitHubFork {
+Function New-GitHubFork 
+{
 	[CmdletBinding(DefaultParameterSetName='user')]
-	param(
-		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $AccessToken,
-		[Parameter(Mandatory = $true, Position = 1)]
+	param
+	(
+		[Parameter(Mandatory = $false)]
+		[string] $AccessToken = (Get-GitHubAccessToken),
+		[Parameter(Mandatory = $true)]
 		[string] $Owner,
-		[Parameter(Mandatory = $true, Position = 1)]
+		[Parameter(Mandatory = $true)]
 		[string] $RepositoryName,
 		[Parameter(Mandatory = $true, ParameterSetName='organization')]
 		[string] $OrganizationName
 	)
-	Begin {
+	Begin 
+	{
 		$uri = "$BaseURI/repos/$Owner/$RepositoryName/forks"
 
-		switch ($PsCmdlet.ParameterSetName) {
-			'organization' {
+		switch ($PsCmdlet.ParameterSetName) 
+		{
+			'organization' 
+			{
 				$uri += "?organization=$OrganizationName"			
 			}
 		}
 
 		$Headers.Authorization = "token $AccessToken"
 	}
-	Process {
-		try {
+	Process 
+	{
+		try 
+        {
 			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Verbose
 		}
-		catch {
-			Format-Response -Response $_.Exception.Response | Out-Host
+		catch 
+		{
+			Format-Response -Response $_.Exception.Response | Write-Error
 		}
 	}
 }
 
-function Remove-GitHubRepository {
-	[CmdletBinding(DefaultParameterSetName='user')]
-	param(
-		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $AccessToken,
-		[Parameter(Mandatory = $true, Position = 1)]
+Function Remove-GitHubRepository 
+{
+	[CmdletBinding()]
+    Param
+    (
+		[Parameter(Mandatory = $false)]
+		[string] $AccessToken = (Get-GitHubAccessToken),
+		[Parameter(Mandatory = $true)]
 		[string] $Owner,
-		[Parameter(Mandatory = $true, Position = 1)]
+		[Parameter(Mandatory = $true)]
 		[string] $RepositoryName
 	)
-	Begin {
+	Begin 
+    {
 		$uri = "$BaseURI/repos/$Owner/$RepositoryName"
 
 		$Headers.Authorization = "token $AccessToken"
 	}
-	Process {
-		try {
-			Invoke-WebRequest -Method Delete -Uri $uri -Headers $Headers -Verbose
+	Process 
+    {
+		try 
+        {
+			Invoke-RestMethod -Method Delete -Uri $uri -Headers $Headers -Verbose
 		}
-		catch {
-			Format-Response -Response $_.Exception.Response | Out-Host
+		catch 
+        {
+			Format-Response -Response $_.Exception.Response | Write-Error
 		}
 	}
 }
 
 Function Get-GitHubIssue 
 {
-	param(
-		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $AccessToken = {Get-GitHubAccessToken},
-		[Parameter(Mandatory = $true, Position = 1)]
+	[CmdletBinding()]
+	Param
+	(
+		[Parameter(Mandatory = $false)]
+		[string] $AccessToken = (Get-GitHubAccessToken),
+		[Parameter(Mandatory = $true)]
 		[string] $Owner,
-		[Parameter(Mandatory = $true, Position = 2)]
+		[Parameter(Mandatory = $true)]
 		[string] $RepositoryName,
-		[Parameter(Mandatory = $False, Default = "open")]
-		[ValidateSetAttribute("open", "closed", "all")]
-		[string] $State,
+		[Parameter(Mandatory = $False)]
+		[ValidateSet("open", "closed", "all")]
+		[string] $State = "open",
 		[Parameter(Mandatory = $False)]
 		[string] $Milestone,
-		[Parameter(Mandatory = $False)]
 		# Can be the name of a user. Pass in none for issues with no assigned user, and * for issues assigned to any user.
 		[Parameter(Mandatory = $False)]
 		[string] $Assignee,
@@ -226,37 +293,67 @@ Function Get-GitHubIssue
 		[string] $Mentioned,
 		[Parameter(Mandatory = $False)]
 		[string[]] $Labels,
-		[Parameter(Mandatory = $False, Default = "created")]
-		[ValidateSetAttribute("updated", "comments", "created")]
-		[string] $Sort,
-		[Parameter(Mandatory = $False, Default = "desc")]
-		[ValidateSetAttribute("asc", "desc")]
-		[string] $Direction,
-        # Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
-		[Parameter(Mandatory = $False, Default = "desc")]
-		[ValidateSetAttribute("asc", "desc")]
+		[Parameter(Mandatory = $False)]
+		[ValidateSet("updated", "comments", "created")]
+		[string] $Sort = "created",
+		[Parameter(Mandatory = $False)]
+		[ValidateSet("asc", "desc")]
+		[string] $Direction = "desc",
+        # Only issues updated at or after this time are returned. 
+        #This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+		[Parameter(Mandatory = $False)]
+		[ValidatePattern("^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$")]
 		[string] $Since
 	)
-	Begin {
+	Begin 
+    {
 		$uri = "$BaseURI/repos/$Owner/$RepositoryName/issues"
 
 		$Headers.Authorization = "token $AccessToken"
 	}
-	Process {
-		try {
-			
-			$body = Get-AllBoundParameters -CommandName $MyInvocation.MyCommand.Name
-			
-		
-			Invoke-WebRequest -Method Get -Uri $uri -Headers $Headers -Verbose
+	Process 
+    {
+		try 
+        {
+			$nameValueCollection = ConvertTo-HashTable -CommandInfo $MyInvocation.MyCommand
+            
+            $queryString = System.String.Join('&', $nameValueCollection, ($nameValueCollection)
+             nvc.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(nvc[a])));
+
+			Invoke-RestMethod -Method Get -Uri $uri -Headers $Headers -Verbose
 		}
-		catch {
-			Format-Response -Response $_.Exception.Response | Out-Host
+		catch 
+        {
+			Format-Response -Response $_.Exception.Response | Write-Error
 		}
 	}
 }
 
-function Get-SplattingHashTable 
+Function Get-ParameterWithValue
+{
+    [OutputType([ParameterMetadata[]])]
+    [CmdletBinding()]
+	Param
+	(
+        [Parameter(Mandatory = $true)]
+        [ParameterMetadata[]]
+        $InvocationParameters
+    )
+
+    Begin
+    {
+        
+    }
+
+    Process
+    {
+        $InvocationParameters | 
+        Where-Object -Value -NE 
+    }
+        
+}
+
+Function ConvertTo-HashTable 
 {
     <#
     .Synopsis
@@ -268,22 +365,42 @@ function Get-SplattingHashTable
     Get-AllBoundParameters -CommandName Add-AzureAccount
     #>
     [CmdletBinding()]
-    param (
+    [OutputType([System.Collections.Hashtable])]
+    Param 
+	(
         [System.Management.Automation.CommandInfo] 
 		$CommandInfo
     )
-	foreach($h in $CommandInfo.Parameters.GetEnumerator()) 
+	Begin
 	{
-		try 
+		
+	}
+	Process
+	{
+        $hash = $null
+        $hash = @{}
+
+
+
+		foreach($parameter in $CommandInfo.Parameters.GetEnumerator()) 
 		{
-			$key = $h.Key
-			$val = Get-Variable -Name $key -ErrorAction Stop | Select-Object -ExpandProperty Value -ErrorAction Stop
-			if (([String]::IsNullOrEmpty($val) -and (!$PSBoundParameters.ContainsKey($key)))) {
-				throw "A blank value that wasn't supplied by the user."
-			}
-			$params[$key] = $val
-		} 
-		catch {}
+			try 
+			{
+				$key = $parameter.Key
+				$val = Get-Variable -Name $key -ErrorAction Stop | Select-Object -ExpandProperty Value -ErrorAction Stop
+				if (([String]::IsNullOrEmpty($val) -and (!$PSBoundParameters.ContainsKey($key)))) 
+				{
+					throw "A blank value that wasn't supplied by the user."
+				}
+				$hash[$key] = $val
+			} 
+			catch {}
+		}
+	}
+	
+	End 
+	{
+		return $hash
 	}
 }
 

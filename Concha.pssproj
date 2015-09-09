@@ -33,7 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Build.ps1" />
     <Compile Include="build\Build.ps1" />
     <Compile Include="build\Build.psm1" />
     <Compile Include="build\configuration\acceptance.ps1" />
@@ -49,20 +48,22 @@
     <Compile Include="build\tasks\Package.ps1" />
     <Compile Include="build\tasks\RestoreDepencies.ps1" />
     <Compile Include="build\tasks\Test.ps1" />
-    <Compile Include="Default.ps1" />
     <Compile Include="src\build\Component.psm1" />
     <Compile Include="src\build\Solution.psm1" />
     <Compile Include="src\configuration\debug.info" />
     <Compile Include="src\configuration\SolutionConfiguration.ps1" />
     <Compile Include="src\configuration\SolutionConfigurationData.psd1" />
     <Compile Include="src\configuration\Solution\localhost.mof" />
-    <Compile Include="src\GitHub.tests.ps1" />
     <Compile Include="src\Concha.psd1" />
-    <Compile Include="src\GitFlow.tests.ps1" />
-    <Compile Include="src\Solution.tests.ps1" />
     <Compile Include="src\GitFlow.psm1" />
     <Compile Include="src\GitHub.psm1" />
+    <Compile Include="src\Install.ps1" />
     <Compile Include="src\Solution.psm1" />
+    <Compile Include="src\Uninstall.ps1" />
+    <Compile Include="src\Version.psm1" />
+    <Compile Include="tests\GitFlow.tests.ps1" />
+    <Compile Include="tests\GitHub.tests.ps1" />
+    <Compile Include="tests\Solution.tests.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="build\" />
@@ -74,6 +75,7 @@
     <Folder Include="src\build\" />
     <Folder Include="src\configuration\" />
     <Folder Include="src\configuration\Solution\" />
+    <Folder Include="tests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
