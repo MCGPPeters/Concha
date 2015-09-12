@@ -121,7 +121,7 @@ Function New-GitHubRepository
 	Param
     (
 		[Parameter(Mandatory = $false)]
-		[string] $AccessToken = (Get-GitHubAccessToken),
+		[string] $AccessToken = {Get-GitHubAccessToken}.Invoke(),
 		[Parameter(Mandatory = $true)]
 		[string] $Name,
 		[Parameter(Mandatory = $true, ParameterSetName='organization')]
@@ -202,7 +202,7 @@ Function New-GitHubFork
 	param
 	(
 		[Parameter(Mandatory = $false)]
-		[string] $AccessToken = (Get-GitHubAccessToken),
+		[string] $AccessToken = {Get-GitHubAccessToken}.Invoke(),
 		[Parameter(Mandatory = $true)]
 		[string] $Owner,
 		[Parameter(Mandatory = $true)]
@@ -243,7 +243,7 @@ Function Remove-GitHubRepository
     Param
     (
 		[Parameter(Mandatory = $false)]
-		[string] $AccessToken = (Get-GitHubAccessToken),
+		[string] $AccessToken = {Get-GitHubAccessToken}.Invoke(),
 		[Parameter(Mandatory = $true)]
 		[string] $Owner,
 		[Parameter(Mandatory = $true)]
@@ -274,7 +274,7 @@ Function Get-GitHubIssue
 	Param
 	(
 		[Parameter(Mandatory = $false)]
-		[string] $AccessToken = (Get-GitHubAccessToken),
+		[string] $AccessToken = {Get-GitHubAccessToken}.Invoke(),
 		[Parameter(Mandatory = $true)]
 		[string] $Owner,
 		[Parameter(Mandatory = $true)]
@@ -317,8 +317,8 @@ Function Get-GitHubIssue
         {
 			$nameValueCollection = ConvertTo-HashTable -CommandInfo $MyInvocation.MyCommand
             
-            $queryString = System.String.Join('&', $nameValueCollection, ($nameValueCollection)
-             nvc.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(nvc[a])));
+            $queryString = System.String.Join('&', $nameValueCollection, ($nameValueCollection))
+             nvc.AllKeys.Select(a => a + "=" + HttpUtility.UrlEncode(nvc[a]));
 
 			Invoke-RestMethod -Method Get -Uri $uri -Headers $Headers -Verbose
 		}
@@ -331,12 +331,12 @@ Function Get-GitHubIssue
 
 Function Get-ParameterWithValue
 {
-    [OutputType([ParameterMetadata[]])]
+    [OutputType([System.Management.Automation.ParameterMetadata[]])]
     [CmdletBinding()]
 	Param
 	(
         [Parameter(Mandatory = $true)]
-        [ParameterMetadata[]]
+        [System.Management.Automation.ParameterMetadata[]]
         $InvocationParameters
     )
 
@@ -404,7 +404,8 @@ Function ConvertTo-HashTable
 	}
 }
 
-function Format-Response {
+function Format-Response 
+{
 	param(
 		[Parameter(Mandatory = $true, Position = 0)]
 		[PSObject] $Response

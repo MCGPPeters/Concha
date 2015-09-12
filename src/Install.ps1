@@ -9,7 +9,7 @@ Set-GitHubAccessToken -SecuredAccessToken $securedAccessToken
 Get-PackageProvider -Name Chocolatey -ForceBootstrap
 Get-PackageProvider -Name NuGet -ForceBootstrap
 
-#add package sources
+#add system wide package sources
 Register-PackageSource -Name eVision-ci -ProviderName NuGet -Location https://evision.myget.org/F/ci/auth/8159a17d-97ca-4f3a-8f95-63d34705ac0f -ForceBootstrap -Trusted
 Register-PackageSource -Name eVision-main -ProviderName NuGet -Location https://evision.myget.org/F/main/auth/8159a17d-97ca-4f3a-8f95-63d34705ac0f -ForceBootstrap -Trusted
 Register-PackageSource -Name chocolatey.org -ProviderName Chocolatey -Location http://chocolatey.org/api/v2/ -ForceBootstrap -Trusted

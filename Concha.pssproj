@@ -48,8 +48,6 @@
     <Compile Include="build\tasks\Package.ps1" />
     <Compile Include="build\tasks\RestoreDepencies.ps1" />
     <Compile Include="build\tasks\Test.ps1" />
-    <Compile Include="src\build\Component.psm1" />
-    <Compile Include="src\build\Solution.psm1" />
     <Compile Include="src\configuration\debug.info" />
     <Compile Include="src\configuration\SolutionConfiguration.ps1" />
     <Compile Include="src\configuration\SolutionConfigurationData.psd1" />
