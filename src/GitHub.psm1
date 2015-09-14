@@ -3,7 +3,7 @@ Set-Variable -Name Headers -Value @{"Accept" = "application/vnd.github.v3+json"}
 
 class Owner
 {
-	[String]$Id;
+	[Int]$Id;
 	[String]$Login;
     [System.Uri]$AvatarUrl;
     [String]$GravatarId;
@@ -24,7 +24,7 @@ class Owner
 
 class Repository
 {
-	[String]$Id;
+	[Int]$Id;
 	[Owner]$Owner;
 	[String]$Name;
 	[String]$FullName;
@@ -73,7 +73,7 @@ class Repository
 	[System.Uri]$TagsUrl;
 	[System.Uri]$TeamsUrl;
 	[System.Uri]$TreesUrl;
-	[System.Uri]$Homepage;
+	[System.Uri]$HomepageUrl;
 	[String]$Language;
 	[Int]$ForksCount;
 	[Int]$StargazersCount;
@@ -90,93 +90,122 @@ class Repository
 	[System.DateTime]$UpdatedAt;
 	[System.Collections.Generic.List[Permission]]$Permissions;    
 
+    Repository(){}
+
 	Repository([PSCustomObject] $GitHubResponse)
 	{
-		Id = $GitHubResponse.id;
+		$this.Id = $GitHubResponse.id;
 		$this.Owner = [Owner]::New()
 		@{
 			Id = $GitHubResponse.owner.id;
 			Login = $GitHubResponse.owner.login;
-			AvatarUrl = $GitHubResponse.owner.avatar_url
-			GravatarId = $GitHubResponse.owner.gravatar_id
-			Url = $GitHubResponse.owner.url;
-			HTMLUrl = $GitHubResponse.owner.html_url;
-			FollowersUrl = $GitHubResponse.owner.followers_url;
-			FollowingUrl = $GitHubResponse.owner.following_url;
-			GistsUrl = $GitHubResponse.owner.gists_url;
-			StarredUrl = $GitHubResponse.owner.starred_url;
-			SubscriptionsUrl = $GitHubResponse.owner.subscriptions_url;
-			OrganizationsUrl = $GitHubResponse.owner.organizations_url;
-			ReposUrl = $GitHubResponse.owner.repos_url;
-			EventsUrl = $GitHubResponse.owner.events_url;
-			ReceivedEventsUrl = $GitHubResponse.owner.received_events_url;
+			AvatarUrl = Convert-ToURL -Url $GitHubResponse.owner.avatar_url            
+			GravatarId = [System.Uri]::New($GitHubResponse.owner.gravatar_id);
+			Url = [System.Uri]::New($GitHubResponse.owner.url);
+			HTMLUrl = [System.Uri]::New($GitHubResponse.owner.html_url);
+			FollowersUrl = [System.Uri]::New($GitHubResponse.owner.followers_url);
+			FollowingUrl = [System.Uri]::New($GitHubResponse.owner.following_url);
+			GistsUrl = [System.Uri]::New($GitHubResponse.owner.gists_url);
+			StarredUrl = [System.Uri]::New($GitHubResponse.owner.starred_url);
+			SubscriptionsUrl = [System.Uri]::New($GitHubResponse.owner.subscriptions_url);
+			OrganizationsUrl = [System.Uri]::New($GitHubResponse.owner.organizations_url);
+			ReposUrl = [System.Uri]::New($GitHubResponse.owner.repos_url);
+			EventsUrl = [System.Uri]::New($GitHubResponse.owner.events_url);
+			ReceivedEventsUrl = [System.Uri]::New($GitHubResponse.owner.received_events_url);
 			Type = $GitHubResponse.owner.type;
 			IsSiteAdmin = $GitHubResponse.owner.site_admin;
 		};
-		Name = $GitHubResponse.name
-		FullName = $GitHubResponse.full_name
-		Description = $GitHubResponse.description
-		Private = $GitHubResponse.private
-		Fork = $GitHubResponse.fork
-		Url = $GitHubResponse.url
-		HtmlUrl = $GitHubResponse.html_url
-		ArchiveUrl = $GitHubResponse.archive_url
-		AssigneesUrl = $GitHubResponse.assignees_url
-		BlobsUrl = $GitHubResponse.blobs_url
-		BranchesUrl = $GitHubResponse.branches_url
-		CloneUrl = $GitHubResponse.clone_url
-		CollaboratorsUrl = $GitHubResponse.collaborators_url
-		CommentsUrl = $GitHubResponse.comments_url
-		CommitsUrl = $GitHubResponse.commits_url
-		CompareUrl = $GitHubResponse.compare_url
-		ContentsUrl = $GitHubResponse.contents_url
-		ContributorsUrl = $GitHubResponse.contributors_url
-		DownloadsUrl = $GitHubResponse.downloads_url
-		EventsUrl = $GitHubResponse.events_url
-		ForksUrl = $GitHubResponse.forks_url
-		GitCommitsUrl = $GitHubResponse.git_commits_url
-		GitRefsUrl = $GitHubResponse.git_refs_url
-		GitTagsUrl = $GitHubResponse.git_tags_url
-		GitUrl = $GitHubResponse.git_url
-		HooksUrl = $GitHubResponse.hooks_url
-		Issue_commentUrl = $GitHubResponse.issue_comment_url
-		Issue_eventsUrl = $GitHubResponse.issue_events_url
-		IssuesUrl = $GitHubResponse.issues_url
-		KeysUrl = $GitHubResponse.keys_url
-		LabelsUrl = $GitHubResponse.labels_url
-		LanguagesUrl = $GitHubResponse.languages_url
-		MergesUrl = $GitHubResponse.merges_url
-		MilestonesUrl = $GitHubResponse.milestones_url
-		MirrorUrl = $GitHubResponse.mirror_url
-		NotificationsUrl = $GitHubResponse.notifications_url
-		PullsUrl = $GitHubResponse.pulls_url
-		ReleasesUrl = $GitHubResponse.releases_url
-		SshUrl = $GitHubResponse.ssh_url
-		StargazersUrl = $GitHubResponse.stargazers_url
-		StatusesUrl = $GitHubResponse.statuses_url
-		SubscribersUrl = $GitHubResponse.subscribers_url
-		SubscriptionUrl = $GitHubResponse.subscription_url
-		SvnUrl = $GitHubResponse.svn_url
-		TagsUrl = $GitHubResponse.tags_url
-		TeamsUrl = $GitHubResponse.teams_url
-		TreesUrl = $GitHubResponse.trees_url
-		Homepage = $GitHubResponse.homepage
-		Language = $GitHubResponse.language
-		ForksCount = $GitHubResponse.forks_count
-		StargazersCount = $GitHubResponse.stargazers_count
-		WatchersCount = $GitHubResponse.watchers_count
-		Size = $GitHubResponse.size
-		DefaultBranch = $GitHubResponse.default_branch
-		OpenIssuesCount = $GitHubResponse.open_issues_count
-		HasIssues = $GitHubResponse.has_issues
-		HasWiki = $GitHubResponse.has_wiki
-		HasPages = $GitHubResponse.has_pages
-		HasDownloads = $GitHubResponse.has_downloads
-		PushedAt = $GitHubResponse.pushed_at
-		CreatedAt = $GitHubResponse.created_at
-		UpdatedAt = $GitHubResponse.updated_at
-		Permissions = $GitHubResponse.permissions
+		$this.Name = $GitHubResponse.name
+		$this.FullName = $GitHubResponse.full_name
+		$this.Description = $GitHubResponse.description
+		$this.Private = $GitHubResponse.private
+		$this.Fork = $GitHubResponse.fork
+		$this.Url = [System.Uri]::New($GitHubResponse.url)
+		$this.HtmlUrl = [System.Uri]::New($GitHubResponse.html_url)
+		$this.ArchiveUrl = [System.Uri]::New($GitHubResponse.archive_url)
+		$this.AssigneesUrl = [System.Uri]::New($GitHubResponse.assignees_url)
+		$this.BlobsUrl = [System.Uri]::New($GitHubResponse.blobs_url)
+		$this.BranchesUrl = [System.Uri]::New($GitHubResponse.branches_url)
+		$this.CloneUrl = [System.Uri]::New($GitHubResponse.clone_url)
+		$this.CollaboratorsUrl = [System.Uri]::New($GitHubResponse.collaborators_url)
+		$this.CommentsUrl = [System.Uri]::New($GitHubResponse.comments_url)
+		$this.CommitsUrl = [System.Uri]::New($GitHubResponse.commits_url)
+		$this.CompareUrl = [System.Uri]::New($GitHubResponse.compare_url)
+		$this.ContentsUrl = [System.Uri]::New($GitHubResponse.contents_url)
+		$this.ContributorsUrl = [System.Uri]::New($GitHubResponse.contributors_url)
+		$this.DownloadsUrl = [System.Uri]::New($GitHubResponse.downloads_url)
+		$this.EventsUrl = [System.Uri]::New($GitHubResponse.events_url)
+		$this.ForksUrl = [System.Uri]::New($GitHubResponse.forks_url)
+		$this.GitCommitsUrl = [System.Uri]::New($GitHubResponse.git_commits_url)
+		$this.GitRefsUrl = [System.Uri]::New($GitHubResponse.git_refs_url)
+		$this.GitTagsUrl = [System.Uri]::New($GitHubResponse.git_tags_url)
+		$this.GitUrl = [System.Uri]::New($GitHubResponse.git_url)
+		$this.HooksUrl = [System.Uri]::New($GitHubResponse.hooks_url)
+		$this.Issue_commentUrl = [System.Uri]::New($GitHubResponse.issue_comment_url)
+		$this.Issue_eventsUrl = [System.Uri]::New($GitHubResponse.issue_events_url)
+		$this.IssuesUrl = [System.Uri]::New($GitHubResponse.issues_url)
+		$this.KeysUrl = [System.Uri]::New($GitHubResponse.keys_url)
+		$this.LabelsUrl = [System.Uri]::New($GitHubResponse.labels_url)
+		$this.LanguagesUrl = [System.Uri]::New($GitHubResponse.languages_url)
+		$this.MergesUrl = [System.Uri]::New($GitHubResponse.merges_url)
+		$this.MilestonesUrl = [System.Uri]::New($GitHubResponse.milestones_url)
+		$this.MirrorUrl = [System.Uri]::New($GitHubResponse.mirror_url)
+		$this.NotificationsUrl = [System.Uri]::New($GitHubResponse.notifications_url)
+		$this.PullsUrl = [System.Uri]::New($GitHubResponse.pulls_url)
+		$this.ReleasesUrl = [System.Uri]::New($GitHubResponse.releases_url)
+		$this.SshUrl = [System.Uri]::New($GitHubResponse.ssh_url)
+		$this.StargazersUrl = [System.Uri]::New($GitHubResponse.stargazers_url)
+		$this.StatusesUrl = [System.Uri]::New($GitHubResponse.statuses_url)
+		$this.SubscribersUrl = [System.Uri]::New($GitHubResponse.subscribers_url)
+		$this.SubscriptionUrl = [System.Uri]::New($GitHubResponse.subscription_url)
+		$this.SvnUrl = [System.Uri]::New($GitHubResponse.svn_url)
+		$this.TagsUrl = [System.Uri]::New($GitHubResponse.tags_url)
+		$this.TeamsUrl = [System.Uri]::New($GitHubResponse.teams_url)
+		$this.TreesUrl = [System.Uri]::New($GitHubResponse.trees_url)
+		$this.HomepageUrl = [System.Uri]::New($GitHubResponse.homepage)
+		$this.Language = $GitHubResponse.language
+		$this.ForksCount = $GitHubResponse.forks_count
+		$this.StargazersCount = $GitHubResponse.stargazers_count
+		$this.WatchersCount = $GitHubResponse.watchers_count
+		$this.Size = $GitHubResponse.size
+		$this.DefaultBranch = $GitHubResponse.default_branch
+		$this.OpenIssuesCount = $GitHubResponse.open_issues_count
+		$this.HasIssues = $GitHubResponse.has_issues
+		$this.HasWiki = $GitHubResponse.has_wiki
+		$this.HasPages = $GitHubResponse.has_pages
+		$this.HasDownloads = $GitHubResponse.has_downloads
+		$this.PushedAt = [System.DateTime]::Parse($GitHubResponse.pushed_at)
+		$this.CreatedAt = [System.DateTime]::Parse($GitHubResponse.created_at)
+		$this.UpdatedAt = [System.DateTime]::Parse($GitHubResponse.updated_at)
+		$this.Permissions = ($GitHubResponse.permissions | ForEach-Object -Process {[Permission] ([System.Globalization.CultureInfo]::CurrentCulture.TextInfo.ToTitleCase($_))})
 	}
+}
+
+Function ConvertTo-Url
+{
+    [OutputType([System.Uri])]
+    [CmdletBinding(PositionalBinding=$false)]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+        [string]$String
+    )
+    Process
+    {
+        [System.Uri]$Uri = [System.Uri]::Empty;
+        switch ([System.Uri]::TryCreate($String, [System.UriKind]::RelativeOrAbsolute, [ref]$Uri))
+        {
+            $true 
+            {
+                switch($Uri.Scheme -eq ([System.Uri]::UriSchemeHttp -or [System.Uri]::UriSchemeHttps))
+                {
+                    $true {$Uri}
+                    $false {[System.Uri]::Empty}
+                }
+            }
+            $false { [System.Uri]::Empty }
+        }
+    }
 }
 
 enum Permission
@@ -373,14 +402,15 @@ Function New-GitHubRepository
     {
 		try 
         {
-			$reponse = Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body $bodyAsJSON -Verbose
-			[Repository]::New($reponse)
+			$response = Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Body $bodyAsJSON -Verbose
+			return [Repository]::New($response)
 		}
 		catch 
         {
 			Format-Response -Response $_.Exception.Response | Write-Error
 		}
 	}
+}
 
 Function New-GitHubFork 
 {
