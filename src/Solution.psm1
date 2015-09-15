@@ -46,7 +46,7 @@ namespace Solution
         [FolderStructure] $FolderStructure
         [SolutionName] $Name
         [Repository] $GitHubRepository
-        [List[Dependency]] $Dependencies
+        #[List[Dependency]] $Dependencies
     }
 
     class FolderStructure
@@ -128,33 +128,46 @@ namespace Solution
 
     Function Join-Solution 
     {
-	    [CmdletBinding()]
+	    [CmdletBinding(DefaultParameterSetName='JoinAsUser')]
 	    Param 
         (
 		    [Parameter(Mandatory = $true)]
-		    [Solution] $Solution,
+		    [String] $SolutionName,
+            [Parameter(Mandatory = $true)]
+		    [DirectoryInfo] $Path,
 		    [Parameter(Mandatory = $true)]
-		    [string] $Owner,
+		    [string] $GitHubOwnerName,
 		    [Parameter(Mandatory = $false)]
-		    [switch] $UseSSH	
+		    [switch] $UseSSH,
+            [Parameter(Mandatory = $true, ParameterSetName='JoinAsOrganization')]
+            [string] $GitHubOrganizationName
 	    )
-	    Begin 
-	    {
-	    }
 	    Process	
-	    {		
+	    {	
+            $forkParameters = 
+            @{
+                OwnerName = $GitHubOwnerName
+                RepositoryName = $SolutionName
+            }
+
+            switch ($PsCmdlet.ParameterSetName) 
+		    {
+			    'JoinAsOrganization' 
+			    {
+				    $forkParameters.Add('OrganizationName', $GitHubOrganizationName)			
+			    }
+		    }
+
+            $GitHubRepository = New-GitHubFork @forkParameters
+
 		    if($UseSSH.ToBool() -eq $true) 
 		    {
-			    $cloneUrl = gitHubRepository.ssh_url
+			    $cloneUrl = $GitHubRepository.SshUrl
 		    }
 		    else 
 		    {
-			    $cloneUrl = gitHubRepository.clone_url
+			    $cloneUrl = $GitHubRepository.CloneUrl
 		    }	
-	    }
-	    End 
-	    {
-
 	    }
     }
 

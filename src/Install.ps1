@@ -2,8 +2,24 @@
 #Requires -runasadministrator
 
 #configure the GitHub access token
-$securedAccessToken = Read-Host -Prompt "Please enter a valid GitHub OAuth access token. You can acquire a personal token via https://github.com/settings/tokens" -AsSecureString
-Set-GitHubAccessToken -SecuredAccessToken $securedAccessToken
+$SecuredAccessToken = Read-Host -Prompt "Please enter a valid GitHub OAuth access token. You can acquire a personal token via https://github.com/settings/tokens" -AsSecureString
+Set-GitHubAccessToken -SecuredAccessToken $SecuredAccessToken
+
+#configure wether the user prefers to use ssh while clone
+$Title = "Set SSH preference for GitHub"
+$Message = "Do you want to use SSH while accessing a repository on GitHub?"
+$Yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", `
+    "Deletes all the files in the folder."
+$No = New-Object System.Management.Automation.Host.ChoiceDescription "&No", `
+    "Retains all the files in the folder."
+$Options = [System.Management.Automation.Host.ChoiceDescription[]]($no, $yes)
+$Result = $host.ui.PromptForChoice($title, $message, $options, 0) 
+switch ($result)
+{
+    0 { $UseSSH = $false}
+    1 { $UseSSH = $true}
+}
+Set-GitHubSetting -Name UseSSH -Value $UseSSH
 
 #install package manager providers
 Get-PackageProvider -Name Chocolatey -ForceBootstrap

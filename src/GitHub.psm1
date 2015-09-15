@@ -183,6 +183,24 @@ class GitHubRepository
 	}
 }
 
+Function Clone-GitHubRepository
+{
+    [CmdletBinding(PositionalBinding=$false)]
+    param
+    (
+	    [Parameter(Mandatory = $true)]
+	    [string] $OwnerName,
+	    [Parameter(Mandatory = $true)]
+	    [string] $RepositoryName
+    )
+    Process
+    {
+        [bool]$UseSSH = Get-GitHubSetting -Name UseSSH
+
+
+    }
+}
+
 Function ConvertTo-Url
 {
     [OutputType([Uri])]
@@ -321,19 +339,19 @@ Function Get-GitHubAuthenticatedUser
 Function Get-GitHubRepository 
 {
 	[OutputType([GitHubRepository])]
-	[CmdletBinding(DefaultParameterSetName='user')]
+	[CmdletBinding()]
 	Param
     (
 	    [Parameter(Mandatory = $false)]
 		[string] $AccessToken = {Get-GitHubAccessToken}.Invoke(),
 		[Parameter(Mandatory = $true)]
-		[string] $Owner,
+		[string] $OwnerName,
 		[Parameter(Mandatory = $true)]
 		[string] $RepositoryName
     )
     Begin 
     {
-		$uri = "$BaseURI/repos/$Owner/$RepositoryName"
+		$uri = "$BaseURI/repos/$OwnerName/$RepositoryName"
 
 		$Headers.Authorization = "token $AccessToken"
 	}
@@ -443,6 +461,7 @@ Function New-GitHubRepository
 
 Function New-GitHubFork 
 {
+    [OutputType([GitHubRepository])]
 	[CmdletBinding(DefaultParameterSetName='user')]
 	param
 	(
@@ -451,7 +470,9 @@ Function New-GitHubFork
 		[Parameter(Mandatory = $true)]
 		[string] $Owner,
 		[Parameter(Mandatory = $true)]
-		[string] $RepositoryName
+		[string] $RepositoryName,
+        [Parameter(Mandatory = $true, ParameterSetName='organization')]
+        [string] $OrganizationName
 	)
 	Begin 
 	{
@@ -471,12 +492,13 @@ Function New-GitHubFork
 	{
 		try 
         {
-			Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Verbose
+			$response = Invoke-RestMethod -Method Post -Uri $uri -Headers $Headers -Verbose
 		}
 		catch 
 		{
 			Format-Response -Response $_.Exception.Response | Write-Error
 		}
+        return [GitHubRepository]::New($response)
 	}
 }
 
