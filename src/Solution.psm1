@@ -1,5 +1,7 @@
 using namespace GitHub
+using namespace DependencyManagement
 using namespace System.IO
+using namespace System.Collections.Generic
 
 namespace Solution
 {
@@ -22,6 +24,7 @@ namespace Solution
     #Import-Module -Name SolutionShell
 
     Import-Module .\GitHub.psm1
+    Import-Module .\DependencyManagement.psm1
 
     enum DevelopmentWorkflow
     {
@@ -43,6 +46,7 @@ namespace Solution
         [FolderStructure] $FolderStructure
         [SolutionName] $Name
         [Repository] $GitHubRepository
+        [List[Dependency]] $Dependencies
     }
 
     class FolderStructure
@@ -71,11 +75,19 @@ namespace Solution
 		    [Parameter(Mandatory = $true)]
 		    [DevelopmentWorkflow] $DevelopmentWorkflow,
 		    [Parameter(Mandatory = $false)]
-		    [Func[[DirectoryInfo], [Sctring], [FolderStructure]]] $FolderStructureFactory = {New-FolderStructure -SolutionName $SolutionName -Path $Path}
+		    [Func[[DirectoryInfo], [String], [FolderStructure]]] $FolderStructureFactory = {New-FolderStructure -SolutionName $SolutionName -Path $Path},
+            [Parameter(Mandatory = $false)]
+		    [Func[[String], [GitHubRepository]]] $GitHubRepositoryFactory = {New-GitHubRepository -Name $SolutionName -GitIgnoreTemplate VisualStudio -HasWiki -HasIssues -HasDownloads -AutoInit}
  	    )
 	    Process	
 	    {
+            $repository = $GitHubRepositoryFactory.Invoke($SolutionName)
+
+            git clone $repository.CloneUrl $Path
+
 		    $FolderStructure = $FolderStructureFactory.Invoke($SolutionName, $Path)
+
+		    Initialize-GitFlow -Path $Path
 			     
 		    $useNuGetOrg = 
 		    @{
@@ -85,32 +97,40 @@ namespace Solution
 			    Force = $true
 		    }
 
+            # assuming semantic versioning
 		    Install-Package -Name psake -MinimumVersion 4.4.2 -MaximumVersion 4.9.9 @useNuGetOrg
-		    Install-Package -Name nuget.commandline -MinimumVersion 2.8.6 -MaximumVersion 2.9.9 @useNuGetOrg
 		    Install-Package -Name GitVersion.CommandLine -MinimumVersion 3.1.2 -MaximumVersion 3.9.9 @useNuGetOrg
 		    Install-Package -Name gitreleasemanager -MinimumVersion 0.3.0 -MaximumVersion 1.0.0 @useNuGetOrg
 		    Install-Package -Name xunit.runner.console -MinimumVersion 2.0.0 -MaximumVersion 2.9.9 @useNuGetOrg
 		    Install-Package -Name ILRepack -MinimumVersion 2.0.5 -MaximumVersion 2.9.9 @useNuGetOrg
 		    Install-Package -Name JetBrains.dotCover.CommandLineTools -MinimumVersion 3.2.2 -MaximumVersion 3.9.9 @useNuGetOrg
-
-		    Invoke-WebRequest -Uri 'https://nuget.org/nuget.exe' -OutFile (Join-Path -Path $FolderStructure.NuGetFolderDirectoryInfo.FullName -ChildPath 'nuget.exe') -Verbose
-		    Initialize-GitFlow -Path $Path
-				
-		    $gitHubRepository = New-GitHubRepository -Name $SolutionName
-        
+			        
             $solution = [Solution]::New()
             $solution.SolutionName = [SolutionName]::New($SolutionName)
             $solution.FolderStructure = $FolderStructure
-            $solution.GitHubRepository = $gitHubRepository
+            $solution.GitHubRepository = $GitHubRepositoryFactory.Invoke($SolutionName)
 
             return $Solution
 	    }
     }
 
+    Function Add-Dependency
+    {
+        [CmdletBinding()]
+	    Param 
+        (
+            [Parameter(Mandatory = $true)]
+		    [Solution] $Solution,
+            [Parameter(Mandatory = $true)]
+		    [Dependency] $Dependency
+        )
+    }
+
     Function Join-Solution 
     {
 	    [CmdletBinding()]
-	    Param (
+	    Param 
+        (
 		    [Parameter(Mandatory = $true)]
 		    [Solution] $Solution,
 		    [Parameter(Mandatory = $true)]

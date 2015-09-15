@@ -18,7 +18,7 @@ Register-PackageSource -Name chocolatey.org -ProviderName Chocolatey -Location h
 Install-Package -Name devbox-gitflow -MinimumVersion 2.8.6 -MaximumVersion 2.9.9 -Source chocolatey.org -ProviderName Chocolatey
 
 #install system wide modules
-Install-Module -Name Posh-Git -MinimumVersion 0.5.0 -MaximumVersion 1.9.9 -Confirm
+Install-Module -Name Posh-Git -MinimumVersion 0.5.0 -MaximumVersion 1.9.9 -Force
 Install-Module -Name GitHubShell -MinimumVersion 1.0.0 -MaximumVersion 1.9.9 -Force
 Install-Module -Name GitFlowShell -MinimumVersion 1.0.0 -MaximumVersion 1.9.9 -Force
 Install-Module -Name SolutionShell -MinimumVersion 1.0.0 -MaximumVersion 1.9.9 -Force
