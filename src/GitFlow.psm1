@@ -40,42 +40,48 @@ Function Start-Feature
     }
 }
 
-
 function Finish-Feature 
 {
 	[CmdletBinding()]
 	Param
 	(
-		[Parameter(Mandatory = $true)]
-		[String] $SolutionName
+		
  	)
 	DynamicParam 
 	{
-		
+		Get-GetValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet (Get-Features)
     }
 	Process	
 	{
+		git flow feature finish -rFkDS $Feature
 	}	
 }
 
 Function Get-Features
 {
+	[OutputType([string[]])]
+	[CmdletBinding()]
+	Param()
 
+	Process	
+	{
+		git flow feature | Select-Object -Property @{'Name' = 'Feature'; 'Expression' = {$_.Replace("* ", '').Trim()}} | Select-Object -ExpandProperty Feature
+	}
 }
 
-Function Get-UnassignedIssuesParameter
+Function Get-GetValidatedDynamicParameter
 {
+	[OutputType([System.Management.Automation.RuntimeDefinedParameterDictionary])]
 	[CmdletBinding()]
 	Param
 	(
 		[Parameter(Mandatory = $true)]
-		[Solution] $Solution
+		[String]$ParameterName,
+		[Parameter(Mandatory = $true)]
+		[string[]] $ValidateSet
  	)
 	Process
-	{
-		# Set the dynamic parameters' name
-		$ParameterName = 'RelatedIssue'
-		
+	{		
 		# Create the dictionary 
 		$RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
@@ -91,7 +97,7 @@ Function Get-UnassignedIssuesParameter
 		$AttributeCollection.Add($ParameterAttribute)
 
 		# Generate and set the ValidateSet 
-		$arrSet = Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name -Assignee None
+		$arrSet = $ValidateSet
 		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
 		# Add the ValidateSet to the attributes collection

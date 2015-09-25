@@ -16,7 +16,7 @@
     #Import-Module -Name GitFlowShell
     #Import-Module -Name SolutionShell
 
-    Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'Git.psm1')
+    #Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'Git.psm1')
     Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'GitHub.psm1')
     Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'DependencyManagement.psm1')
 
