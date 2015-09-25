@@ -45,50 +45,48 @@ function Finish-Feature
 	[CmdletBinding()]
 	Param
 	(
-		[Parameter(Mandatory = $true)]
-		[Solution] $Solution,
-		[Parameter(Mandatory = $true)]
-		[Solution] $Name
+		
  	)
 	DynamicParam 
 	{
-		
+		Get-GetValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet (Get-Features)
+    }
+    Begin
+    {
+        $Feature = $PSBoundParameters['Feature']
     }
 	Process	
 	{
+        
+		git flow feature finish -rFS $Feature
 	}	
-}
-
-Function Get-CurrentFeature
-{
-	Process
-	{
-		git flow feature | 
-			Where-Object -FilterScript {$_.StartsWith('*')} | 
-			Select-Object -Property {$_.Split()[1]}
-	}
 }
 
 Function Get-Features
 {
+	[OutputType([string[]])]
+	[CmdletBinding()]
+	Param()
+
 	Process	
 	{
+		git flow feature | Select-Object -Property @{'Name' = 'Feature'; 'Expression' = {$_.Replace("* ", '').Trim()}} | Select-Object -ExpandProperty Feature
 	}
 }
 
-Function Get-UnassignedIssuesParameter
+Function Get-GetValidatedDynamicParameter
 {
+	[OutputType([System.Management.Automation.RuntimeDefinedParameterDictionary])]
 	[CmdletBinding()]
 	Param
 	(
 		[Parameter(Mandatory = $true)]
-		[Solution] $Solution
+		[String]$ParameterName,
+		[Parameter(Mandatory = $true)]
+		[string[]] $ValidateSet
  	)
 	Process
-	{
-		# Set the dynamic parameters' name
-		$ParameterName = 'RelatedIssue'
-		
+	{		
 		# Create the dictionary 
 		$RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
@@ -104,8 +102,7 @@ Function Get-UnassignedIssuesParameter
 		$AttributeCollection.Add($ParameterAttribute)
 
 		# Generate and set the ValidateSet 
-		$arrSet = Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name -Assignee None
-		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
+		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($ValidateSet)
 
 		# Add the ValidateSet to the attributes collection
 		$AttributeCollection.Add($ValidateSetAttribute)
