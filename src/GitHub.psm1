@@ -162,7 +162,7 @@ class GitHubRepository
 		$this.GitCommitsUrl = ConvertTo-Url -String $GitHubResponse.git_commitsUrl
 		$this.GitRefsUrl = ConvertTo-Url -String $GitHubResponse.git_refsUrl
 		$this.GitTagsUrl = ConvertTo-Url -String $GitHubResponse.git_tagsUrl
-		$this.GitUrl = [Uri]::New($GitHubResponse.gitUrl)
+		$this.GitUrl = [Uri]::New($GitHubResponse.git_url)
 		$this.HooksUrl = ConvertTo-Url -String $GitHubResponse.hooksUrl
 		$this.IssueCommentUrl = ConvertTo-Url -String $GitHubResponse.issue_commentUrl
 		$this.IssueEventsUrl = ConvertTo-Url -String $GitHubResponse.issue_eventsUrl
@@ -686,8 +686,9 @@ Function Get-GitHubIssue
                         $issue.Closed_at = ConvertTo-NullableDateTime -String $_.closed_at
                         $issue.Body = $_.body   
 
-                        return $issue
+                        $GitHubIssues.Add($issue)
                 }
+                return $GitHubIssues
             }
         }
 		catch 
