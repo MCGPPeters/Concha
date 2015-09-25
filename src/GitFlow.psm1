@@ -28,15 +28,16 @@ Function Start-Feature
 	
 	DynamicParam 
 	{
-		Get-UnassignedIssuesParameter -GitHubRepositoryName $Solution.Name -GitHubOwnerName $Solution.GitHubRepository.Name
+		Get-GetValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet (Get-GitHubIssues)
     }
-
-    begin {
+    Begin 
+    {
         # Bind the parameter to a friendly variable
-        $GitHubFeature = $PsBoundParameters[$ParameterName]
-		
-		
-		
+        $GitHubFeature = $PsBoundParameters['GitHubIssue']
+    }
+    Process
+    {
+        
     }
 }
 
@@ -58,7 +59,7 @@ function Finish-Feature
 	Process	
 	{
         
-		git flow feature finish -rFS $Feature
+		git flow feature start -rFS $Feature
 	}	
 }
 
