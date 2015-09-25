@@ -58,7 +58,7 @@ function Finish-Feature
 	Process	
 	{
         
-		git flow feature finish -rFkDS $Feature
+		git flow feature finish -rFS $Feature
 	}	
 }
 
