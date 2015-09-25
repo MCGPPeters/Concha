@@ -119,6 +119,41 @@
         )
     }
 
+    Function Get-Solution
+    {
+        [OutputType([Solution])]
+	    [CmdletBinding()]
+	    Param 
+        (
+            [Parameter(Mandatory = $true)]
+		    [System.IO.DirectoryInfo] $SolutionDirectory,
+		    [Parameter(Mandatory = $true)]
+		    [string] $GitHubOwnerName
+	    )
+        Process
+        {
+            $solutionName = $SolutionDirectory.Name
+
+            $Solution = [Solution]::New()
+            $Solution.Name = $solutionName
+            $Solution.DirectoryStructure = [DirectoryStructure]::New() 
+		    @{	
+			    RootDirectoryInfo = $SolutionDirectory
+			    DocumentationDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $DocumentationDirectoryName | Get-Item
+                SourcesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory -ChildPath $SourcesDirectoryName | Get-Item -OutVariable SourcesDirectoryInfo
+			    TestsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $TestsDirectoryName | Get-Item
+			    SamplesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $BuildDirectoryName | Get-Item
+			    BuildDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $SamplesDirectoryName | Get-Item
+			    ArtifactsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $ArtifactsDirectoryName | Get-Item
+			    NuGetDirectoryDirectoryInfo = Join-Path -Path $SourcesDirectoryInfo.FullName -ChildPath $NuGetDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
+			    NuGetPackagesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $NugetPackagesDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
+		    }
+            $Solution.GitHubRepository = Get-GitHubRepository -RepositoryName $solutionName -OwnerName $GitHubOwnerName
+
+            return $Solution
+        }
+    }
+
     Function Join-Solution 
     {
 		[OutputType([Solution])]

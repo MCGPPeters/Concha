@@ -3,7 +3,30 @@ using namespace System
 Set-Variable -Name BaseUri -Value "https://api.github.com" -Option Constant
 Set-Variable -Name Headers -Value @{"Accept" = "application/vnd.github.v3+json"} -Option AllScope
 
-class GitHubOwner
+class GitHubIssue
+{
+    [Uri]$Url;
+    [Uri]$LabelsUrl;
+    [Uri]$CommentsUrl;
+    [Uri]$EventsUrl;
+    [Uri]$HtmlUrl;
+    [Int]$Id;
+    [Int]$Number;
+    [String]$Title;
+    [GitHubUser]$User;
+    [String[]]$Labels;
+    [String]$State;
+    [Bool]$Locked;
+    [GitHubUser]$Assignee;
+    [String]$Milestone;
+    [String]$Comments;
+    [Nullable[DateTime]]$Created_at;
+    [Nullable[DateTime]]$Updated_at;
+    [Nullable[DateTime]]$Closed_at;
+    [String]$Body         
+}
+
+class GitHubUser
 {
 	[Int]$Id;
 	[String]$Login;
@@ -27,7 +50,7 @@ class GitHubOwner
 class GitHubRepository
 {
 	[Int]$Id;
-	[GitHubOwner]$Owner;
+	[GitHubUser]$Owner;
 	[String]$Name;
 	[String]$FullName;
 	[String]$Description;
@@ -87,9 +110,9 @@ class GitHubRepository
 	[Bool]$HasWiki;
 	[Bool]$HasPages;
 	[Bool]$HasDownloads;
-	[DateTime]$PushedAt;
-	[DateTime]$CreatedAt;
-	[DateTime]$UpdatedAt;
+	[Nullable[DateTime]]$PushedAt;
+	[Nullable[DateTime]]$CreatedAt;
+	[Nullable[DateTime]]$UpdatedAt;
 	[Bool]$HasAdminPermission;
     [Bool]$HasPullPermission;
     [Bool]$HasPushPermission;     
@@ -97,22 +120,22 @@ class GitHubRepository
 	GitHubRepository([PSCustomObject] $GitHubResponse)
 	{
 		$this.Id = $GitHubResponse.id;
-		$this.Owner = [GitHubOwner]::New();
+		$this.Owner = [GitHubUser]::New();
 		$this.Owner.Id = $GitHubResponse.owner.id
 		$this.Owner.Login = $GitHubResponse.owner.login
-		$this.Owner.AvatarUrl = ConvertTo-Url -String $GitHubResponse.owner.avatar_url            
+		$this.Owner.AvatarUrl = ConvertTo-Url -String $GitHubResponse.owner.avatarUrl            
 		$this.Owner.GravatarId = ConvertTo-Url -String $GitHubResponse.owner.gravatar_id
 		$this.Owner.Url = ConvertTo-Url -String $GitHubResponse.owner.url
-		$this.Owner.HTMLUrl = ConvertTo-Url -String $GitHubResponse.owner.html_url
-		$this.Owner.FollowersUrl = ConvertTo-Url -String $GitHubResponse.owner.followers_url
-		$this.Owner.FollowingUrl = ConvertTo-Url -String $GitHubResponse.owner.following_url
-		$this.Owner.GistsUrl = ConvertTo-Url -String $GitHubResponse.owner.gists_url
-		$this.Owner.StarredUrl = ConvertTo-Url -String $GitHubResponse.owner.starred_url
-		$this.Owner.SubscriptionsUrl = ConvertTo-Url -String $GitHubResponse.owner.subscriptions_url
-		$this.Owner.OrganizationsUrl = ConvertTo-Url -String $GitHubResponse.owner.organizations_url
-		$this.Owner.ReposUrl = ConvertTo-Url -String $GitHubResponse.owner.repos_url
-		$this.Owner.EventsUrl = ConvertTo-Url -String $GitHubResponse.owner.events_url
-		$this.Owner.ReceivedEventsUrl = ConvertTo-Url -String $GitHubResponse.owner.received_events_url
+		$this.Owner.HTMLUrl = ConvertTo-Url -String $GitHubResponse.owner.htmlUrl
+		$this.Owner.FollowersUrl = ConvertTo-Url -String $GitHubResponse.owner.followersUrl
+		$this.Owner.FollowingUrl = ConvertTo-Url -String $GitHubResponse.owner.followingUrl
+		$this.Owner.GistsUrl = ConvertTo-Url -String $GitHubResponse.owner.gistsUrl
+		$this.Owner.StarredUrl = ConvertTo-Url -String $GitHubResponse.owner.starredUrl
+		$this.Owner.SubscriptionsUrl = ConvertTo-Url -String $GitHubResponse.owner.subscriptionsUrl
+		$this.Owner.OrganizationsUrl = ConvertTo-Url -String $GitHubResponse.owner.organizationsUrl
+		$this.Owner.ReposUrl = ConvertTo-Url -String $GitHubResponse.owner.reposUrl
+		$this.Owner.EventsUrl = ConvertTo-Url -String $GitHubResponse.owner.eventsUrl
+		$this.Owner.ReceivedEventsUrl = ConvertTo-Url -String $GitHubResponse.owner.received_eventsUrl
 		$this.Owner.Type = $GitHubResponse.owner.type
 		$this.Owner.IsSiteAdmin = $GitHubResponse.owner.site_admin
 		$this.Name = $GitHubResponse.name
@@ -121,47 +144,47 @@ class GitHubRepository
 		$this.Private = $GitHubResponse.private
 		$this.Fork = $GitHubResponse.fork
 		$this.Url = ConvertTo-Url -String $GitHubResponse.url
-		$this.HtmlUrl = ConvertTo-Url -String $GitHubResponse.html_url
-		$this.ArchiveUrl = ConvertTo-Url -String $GitHubResponse.archive_url
-		$this.AssigneesUrl = ConvertTo-Url -String $GitHubResponse.assignees_url
-		$this.BlobsUrl = ConvertTo-Url -String $GitHubResponse.blobs_url
-		$this.BranchesUrl = ConvertTo-Url -String $GitHubResponse.branches_url
-		$this.CloneUrl = ConvertTo-Url -String $GitHubResponse.clone_url
-		$this.CollaboratorsUrl = ConvertTo-Url -String $GitHubResponse.collaborators_url
-		$this.CommentsUrl = ConvertTo-Url -String $GitHubResponse.comments_url
-		$this.CommitsUrl = ConvertTo-Url -String $GitHubResponse.commits_url
-		$this.CompareUrl = ConvertTo-Url -String $GitHubResponse.compare_url
-		$this.ContentsUrl = ConvertTo-Url -String $GitHubResponse.contents_url
-		$this.ContributorsUrl = ConvertTo-Url -String $GitHubResponse.contributors_url
-		$this.DownloadsUrl = ConvertTo-Url -String $GitHubResponse.downloads_url
-		$this.EventsUrl = ConvertTo-Url -String $GitHubResponse.events_url
-		$this.ForksUrl = ConvertTo-Url -String $GitHubResponse.forks_url
-		$this.GitCommitsUrl = ConvertTo-Url -String $GitHubResponse.git_commits_url
-		$this.GitRefsUrl = ConvertTo-Url -String $GitHubResponse.git_refs_url
-		$this.GitTagsUrl = ConvertTo-Url -String $GitHubResponse.git_tags_url
-		$this.GitUrl = [Uri]::New($GitHubResponse.git_url)
-		$this.HooksUrl = ConvertTo-Url -String $GitHubResponse.hooks_url
-		$this.IssueCommentUrl = ConvertTo-Url -String $GitHubResponse.issue_comment_url
-		$this.IssueEventsUrl = ConvertTo-Url -String $GitHubResponse.issue_events_url
-		$this.IssuesUrl = ConvertTo-Url -String $GitHubResponse.issues_url
-		$this.KeysUrl = ConvertTo-Url -String $GitHubResponse.keys_url
-		$this.LabelsUrl = ConvertTo-Url -String $GitHubResponse.labels_url
-		$this.LanguagesUrl = ConvertTo-Url -String $GitHubResponse.languages_url
-		$this.MergesUrl = ConvertTo-Url -String $GitHubResponse.merges_url
-		$this.MilestonesUrl = ConvertTo-Url -String $GitHubResponse.milestones_url
-		$this.MirrorUrl = if (-not [String]::IsNullOrEmpty($GitHubResponse.mirror_url)) {[Uri]::New($GitHubResponse.mirror_url)}
-		$this.NotificationsUrl = ConvertTo-Url -String $GitHubResponse.notifications_url
-		$this.PullsUrl = ConvertTo-Url -String $GitHubResponse.pulls_url
-		$this.ReleasesUrl = ConvertTo-Url -String $GitHubResponse.releases_url
-		$this.SshUrl = $GitHubResponse.ssh_url
-		$this.StargazersUrl = ConvertTo-Url -String $GitHubResponse.stargazers_url
-		$this.StatusesUrl = ConvertTo-Url -String $GitHubResponse.statuses_url
-		$this.SubscribersUrl = ConvertTo-Url -String $GitHubResponse.subscribers_url
-		$this.SubscriptionUrl = ConvertTo-Url -String $GitHubResponse.subscription_url
-		$this.SvnUrl = ConvertTo-Url -String $GitHubResponse.svn_url
-		$this.TagsUrl = ConvertTo-Url -String $GitHubResponse.tags_url
-		$this.TeamsUrl = ConvertTo-Url -String $GitHubResponse.teams_url
-		$this.TreesUrl = ConvertTo-Url -String $GitHubResponse.trees_url
+		$this.HtmlUrl = ConvertTo-Url -String $GitHubResponse.htmlUrl
+		$this.ArchiveUrl = ConvertTo-Url -String $GitHubResponse.archiveUrl
+		$this.AssigneesUrl = ConvertTo-Url -String $GitHubResponse.assigneesUrl
+		$this.BlobsUrl = ConvertTo-Url -String $GitHubResponse.blobsUrl
+		$this.BranchesUrl = ConvertTo-Url -String $GitHubResponse.branchesUrl
+		$this.CloneUrl = ConvertTo-Url -String $GitHubResponse.cloneUrl
+		$this.CollaboratorsUrl = ConvertTo-Url -String $GitHubResponse.collaboratorsUrl
+		$this.CommentsUrl = ConvertTo-Url -String $GitHubResponse.CommentsUrl
+		$this.CommitsUrl = ConvertTo-Url -String $GitHubResponse.commitsUrl
+		$this.CompareUrl = ConvertTo-Url -String $GitHubResponse.compareUrl
+		$this.ContentsUrl = ConvertTo-Url -String $GitHubResponse.contentsUrl
+		$this.ContributorsUrl = ConvertTo-Url -String $GitHubResponse.contributorsUrl
+		$this.DownloadsUrl = ConvertTo-Url -String $GitHubResponse.downloadsUrl
+		$this.EventsUrl = ConvertTo-Url -String $GitHubResponse.eventsUrl
+		$this.ForksUrl = ConvertTo-Url -String $GitHubResponse.forksUrl
+		$this.GitCommitsUrl = ConvertTo-Url -String $GitHubResponse.git_commitsUrl
+		$this.GitRefsUrl = ConvertTo-Url -String $GitHubResponse.git_refsUrl
+		$this.GitTagsUrl = ConvertTo-Url -String $GitHubResponse.git_tagsUrl
+		$this.GitUrl = [Uri]::New($GitHubResponse.gitUrl)
+		$this.HooksUrl = ConvertTo-Url -String $GitHubResponse.hooksUrl
+		$this.IssueCommentUrl = ConvertTo-Url -String $GitHubResponse.issue_commentUrl
+		$this.IssueEventsUrl = ConvertTo-Url -String $GitHubResponse.issue_eventsUrl
+		$this.IssuesUrl = ConvertTo-Url -String $GitHubResponse.issuesUrl
+		$this.KeysUrl = ConvertTo-Url -String $GitHubResponse.keysUrl
+		$this.LabelsUrl = ConvertTo-Url -String $GitHubResponse.LabelsUrl
+		$this.LanguagesUrl = ConvertTo-Url -String $GitHubResponse.languagesUrl
+		$this.MergesUrl = ConvertTo-Url -String $GitHubResponse.mergesUrl
+		$this.MilestonesUrl = ConvertTo-Url -String $GitHubResponse.milestonesUrl
+		$this.MirrorUrl = if (-not [String]::IsNullOrEmpty($GitHubResponse.mirrorUrl)) {[Uri]::New($GitHubResponse.mirrorUrl)}
+		$this.NotificationsUrl = ConvertTo-Url -String $GitHubResponse.notificationsUrl
+		$this.PullsUrl = ConvertTo-Url -String $GitHubResponse.pullsUrl
+		$this.ReleasesUrl = ConvertTo-Url -String $GitHubResponse.releasesUrl
+		$this.SshUrl = $GitHubResponse.sshUrl
+		$this.StargazersUrl = ConvertTo-Url -String $GitHubResponse.stargazersUrl
+		$this.StatusesUrl = ConvertTo-Url -String $GitHubResponse.statusesUrl
+		$this.SubscribersUrl = ConvertTo-Url -String $GitHubResponse.subscribersUrl
+		$this.SubscriptionUrl = ConvertTo-Url -String $GitHubResponse.subscriptionUrl
+		$this.SvnUrl = ConvertTo-Url -String $GitHubResponse.svnUrl
+		$this.TagsUrl = ConvertTo-Url -String $GitHubResponse.tagsUrl
+		$this.TeamsUrl = ConvertTo-Url -String $GitHubResponse.teamsUrl
+		$this.TreesUrl = ConvertTo-Url -String $GitHubResponse.treesUrl
 		$this.HomepageUrl = ConvertTo-Url -String $GitHubResponse.homepage
 		$this.Language = $GitHubResponse.language
 		$this.ForksCount = $GitHubResponse.forks_count
@@ -174,9 +197,9 @@ class GitHubRepository
 		$this.HasWiki = $GitHubResponse.has_wiki
 		$this.HasPages = $GitHubResponse.has_pages
 		$this.HasDownloads = $GitHubResponse.has_downloads
-		$this.PushedAt = [DateTime]::Parse($GitHubResponse.pushed_at)
-		$this.CreatedAt = [DateTime]::Parse($GitHubResponse.created_at)
-		$this.UpdatedAt = [DateTime]::Parse($GitHubResponse.updated_at)
+		$this.PushedAt = ConvertTo-NullableDateTime -String $GitHubResponse.pushed_at
+		$this.CreatedAt = ConvertTo-NullableDateTime -String $GitHubResponse.created_at
+		$this.UpdatedAt = ConvertTo-NullableDateTime -String $GitHubResponse.updated_at
 		$this.HasAdminPermission = $GitHubResponse.permissions.admin
         $this.HasPullPermission = $GitHubResponse.permissions.pull
         $this.HasPushPermission = $GitHubResponse.permissions.push
@@ -209,6 +232,28 @@ Function Clone-GitHubRepository
 		}
 
         git clone $repository.CloneUrl $Path
+    }
+}
+
+Function ConvertTo-NullableDateTime
+{
+    [OutputType([Nullable[DateTime]])]
+    [CmdletBinding(PositionalBinding=$false)]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+        [AllowEmptyString()]
+        [string]$String
+    )
+    Process
+    {
+        [DateTime]$DateTime = [DateTime]::MinValue
+        if([DateTime]::TryParse($String, [ref] $DateTime))
+        {
+            return $DateTime
+        }
+
+        return $null
     }
 }
 
@@ -551,6 +596,7 @@ Function Remove-GitHubRepository
 
 Function Get-GitHubIssue 
 {
+    [OutputType([System.Collections.Generic.List[GitHubIssue]])]
 	[CmdletBinding()]
 	Param
 	(
@@ -594,12 +640,56 @@ Function Get-GitHubIssue
 	}
 	Process 
     {
+        $GitHubIssues = [System.Collections.Generic.List[GitHubIssue]]::New()
 		try 
         {
 			$nameValueCollection = ConvertTo-HashTable -CommandInfo $MyInvocation.MyCommand
 
-			Invoke-RestMethod -Method Get -Uri $uri -Headers $Headers -Body $nameValueCollection -Verbose
-		}
+			Invoke-RestMethod -Method Get -Uri $uri -Headers $Headers -Body $nameValueCollection -Verbose | 
+            Foreach-Object -Process { $_ | 
+                    Foreach-Object -Process {
+                        $issue = [GitHubIssue]::New()
+                        $issue.Url = ConvertTo-Url -String $_.url
+                        $issue.LabelsUrl = ConvertTo-Url -String $_.labels_url
+                        $issue.CommentsUrl = ConvertTo-Url -String $_.comments_url
+                        $issue.EventsUrl = ConvertTo-Url -String $_.events_url
+                        $issue.HtmlUrl = ConvertTo-Url -String $_.html_url
+                        $issue.Id = $_.id
+                        $issue.Number = $_.number
+                        $issue.Title = $_.title
+                        $issue.User = [GitHubUser]::New()
+                            $issue.User.Id = $_.user.id
+		                    $issue.User.Login = $_.user.login
+		                    $issue.User.AvatarUrl = ConvertTo-Url -String $_.user.avatarUrl            
+		                    $issue.User.GravatarId = ConvertTo-Url -String $_.user.gravatar_id
+		                    $issue.User.Url = ConvertTo-Url -String $_.user.url
+		                    $issue.User.HTMLUrl = ConvertTo-Url -String $_.user.htmlUrl
+		                    $issue.User.FollowersUrl = ConvertTo-Url -String $_.user.followersUrl
+		                    $issue.User.FollowingUrl = ConvertTo-Url -String $_.user.followingUrl
+		                    $issue.User.GistsUrl = ConvertTo-Url -String $_.user.gistsUrl
+		                    $issue.User.StarredUrl = ConvertTo-Url -String $_.user.starredUrl
+		                    $issue.User.SubscriptionsUrl = ConvertTo-Url -String $_.user.subscriptionsUrl
+		                    $issue.User.OrganizationsUrl = ConvertTo-Url -String $_.user.organizationsUrl
+		                    $issue.User.ReposUrl = ConvertTo-Url -String $_.user.reposUrl
+		                    $issue.User.EventsUrl = ConvertTo-Url -String $_.user.eventsUrl
+		                    $issue.User.ReceivedEventsUrl = ConvertTo-Url -String $_.user.received_eventsUrl
+		                    $issue.User.Type = $_.user.type
+		                    $issue.User.IsSiteAdmin = $_.user.site_admin
+                        $issue.Labels = $_.labels
+                        $issue.State = $_.state
+                        $issue.Locked = $_.locked
+                        $issue.Assignee = $_.assignee
+                        $issue.Milestone = $_.milestone
+                        $issue.Comments = $_.comments
+                        $issue.Created_at = ConvertTo-NullableDateTime -String $_.created_at
+                        $issue.Updated_at = ConvertTo-NullableDateTime -String $_.updated_at
+                        $issue.Closed_at = ConvertTo-NullableDateTime -String $_.closed_at
+                        $issue.Body = $_.body   
+
+                        return $issue
+                }
+            }
+        }
 		catch 
         {
 			Format-Response -Response $_.Exception.Response | Write-Error

@@ -23,12 +23,12 @@ Function Start-Feature
 	Param
 	(
 		[Parameter(Mandatory = $true)]
-		[Solution] $Solution
+		[PSCustomObject] $Solution
  	)
 	
 	DynamicParam 
 	{
-		Get-GetValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet (Get-GitHubIssues)
+		Get-GetValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet (Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name)
     }
     Begin 
     {
