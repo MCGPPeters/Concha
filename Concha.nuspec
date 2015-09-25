@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>Concha</id>
+        <version>$version$</version>
+        <title>Concha</title>
+        <authors>Maurice CGP Peters</authors>
+        <owners>Maurice CGP Peters</owners>
+        <licenseUrl>https://github.com/MCGPPeters/Concha/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/MCGPPeters/Concha</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>A PowerShell module for automating common tasks when setting up .NET projects like the project structure, source control management and builds....</description>
+        <releaseNotes />
+        <copyright>Copyright 2015</copyright>
+        <tags>.NET projects structure build automation powershell</tags>
+    </metadata>
+    <files>
+	    <file src="build\*.psm1" target="tools\" />
+  	</files>
+</package>

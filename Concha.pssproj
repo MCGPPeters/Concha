@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>6CAFC0C6-A428-4d30-A9F9-700E829FEA51</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MyApplication</RootNamespace>
+    <AssemblyName>MyApplication</AssemblyName>
+    <Name>Concha</Name>
+    <ClrVersion />
+    <PowerShellHostVersion />
+    <PowerShellVersion />
+    <ProcessorArchitecture />
+    <RequiredModules>
+    </RequiredModules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="build\Build.ps1" />
+    <Compile Include="build\Build.psm1" />
+    <Compile Include="build\configuration\acceptance.ps1" />
+    <Compile Include="build\configuration\develop.ps1" />
+    <Compile Include="build\configuration\local.ps1" />
+    <Compile Include="build\configuration\release.ps1" />
+    <Compile Include="build\configuration\test.ps1" />
+    <Compile Include="build\LifeCycle.ps1" />
+    <Compile Include="build\tasks\Clean.ps1" />
+    <Compile Include="build\tasks\Deploy.ps1" />
+    <Compile Include="build\tasks\EnsureDesiredState.ps1" />
+    <Compile Include="build\tasks\Merge.ps1" />
+    <Compile Include="build\tasks\Package.ps1" />
+    <Compile Include="build\tasks\RestoreDepencies.ps1" />
+    <Compile Include="build\tasks\Test.ps1" />
+    <Compile Include="src\configuration\debug.info" />
+    <Compile Include="src\configuration\SolutionConfiguration.ps1" />
+    <Compile Include="src\configuration\SolutionConfigurationData.psd1" />
+    <Compile Include="src\configuration\Solution\localhost.mof" />
+    <Compile Include="src\Concha.psd1" />
+    <Compile Include="src\Git.psm1" />
+    <Compile Include="src\GitFlow.psm1" />
+    <Compile Include="src\GitHub.psd1" />
+    <Compile Include="src\GitHub.psm1" />
+    <Compile Include="src\Install.ps1" />
+    <Compile Include="src\Solution.psd1" />
+    <Compile Include="src\Solution.psm1" />
+    <Compile Include="src\Uninstall.ps1" />
+    <Compile Include="src\Version.psm1" />
+    <Compile Include="tests\GitFlow.tests.ps1" />
+    <Compile Include="tests\GitHub.tests.ps1" />
+    <Compile Include="tests\Solution.tests.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="build\" />
+    <Folder Include="build\configuration\" />
+    <Folder Include="build\configuration\pullrequest.ps1\" />
+    <Folder Include="build\tasks\" />
+    <Folder Include="samples\" />
+    <Folder Include="src\" />
+    <Folder Include="src\build\" />
+    <Folder Include="src\configuration\" />
+    <Folder Include="src\configuration\Solution\" />
+    <Folder Include="tests\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="Build" />
+</Project>

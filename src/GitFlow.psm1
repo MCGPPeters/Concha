@@ -37,7 +37,7 @@ Function Start-Feature
     }
     Process
     {
-
+        
     }
 }
 
@@ -59,7 +59,7 @@ function Finish-Feature
 	Process	
 	{
         
-		git flow feature finish -rFS $Feature
+		git flow feature start -rFS $Feature
 	}	
 }
 
