@@ -53,9 +53,12 @@
     <Compile Include="src\configuration\SolutionConfigurationData.psd1" />
     <Compile Include="src\configuration\Solution\localhost.mof" />
     <Compile Include="src\Concha.psd1" />
+    <Compile Include="src\Git.psm1" />
     <Compile Include="src\GitFlow.psm1" />
+    <Compile Include="src\GitHub.psd1" />
     <Compile Include="src\GitHub.psm1" />
     <Compile Include="src\Install.ps1" />
+    <Compile Include="src\Solution.psd1" />
     <Compile Include="src\Solution.psm1" />
     <Compile Include="src\Uninstall.ps1" />
     <Compile Include="src\Version.psm1" />

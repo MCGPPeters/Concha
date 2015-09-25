@@ -1,0 +1,885 @@
+# General terms
+term | definition | source
+-----| ---------- | ------
+activity | processes, procedures or parts of them, usually related to established organization units | ISO 15226:1999
+activity matrix | matrix allocating activities to phases of the product life cycle and to a fixed organization unit | ISO 15226:1999
+analysis | part of the product development process where a specification of requirements is prepared | ISO 11442:2006
+ancillary system | system which is not directly required for the power plant process | 
+ Note 1 to entry | This includes heating, ventilation, air-conditioning systems, space heating systems, stationary compressed air supplies, fire protection systems, cranes, elevators, workshps, staff amenity, etc. | ISO/TS 16952-10:2008
+application reference model | information model that formally describes the information requirements and constraints for an application area | IEC 82045-2:2004
+aspect | <document management> specific way of selecting information on, or describing, a system or an object of a system | IEC 82045-1:2001 \ ISO 15519-1:2010
+ Note 1 to entry | This definition also appears in .
+assembly | number of component parts fitted together to perform a specific function | ISO 7573:2008
+authorization | <of a user> privileges that give access to designated activities | ISO 11442:2006
+auxiliary system | system which is required for the support of a power plant process 
+ Note 1 to entry | This includes auxiliary steam system, compressed air, carrier air, control air, central chemicals supply, sampling systems, etc. | ISO/TS 16952-10:2008
+basic design | part of the product development process where one or more design proposals are evaluated and the basic documentation for design is prepared | ISO 11442:2006
+burr | rough remainder of material outside the ideal geometrical shape of an external edge, residue of machining or of a forming process | ISO 13715:2000
+CAD model | structured CAD data file(s) organized according to the physical parts of the objects represented, for example a building or a mechanical device
+ Note 1 to entry | Models can be two-dimensional or three-dimensional, and can include graphical as well as non-graphical data attached to the objects. | ISO 13567-1:1998
+complex device | device consisting of several functionally interrelated components or elements, the description of which needs a diagram | ISO 14617-2:2002
+component | constituent part of equipment that cannot be physically divided into smaller parts without losing its character | ISO 14617-1:2005
+conceptual design | part of the product development process which includes the preparation of design specifications and design proposals for a product | ISO 11442:2006
+conceptual schema | implementation-independent speci­fication of information structures | IEC 82045-1:2001
+concurrent engineering | coordination of parallel activities in the product life cycle, especially in the phases up to market introduction | ISO 15226:1999
+configuration control | activities comprising the control of changes to a configuration item after formal establishment of its configuration documents | IEC 82045-1:2001
+conjoint designation | designation of site, factory or plant complex as an optional element of the object identifier | ISO/TS 16952-1:2006, 5.2.
+construct | concept or fact that is modelled | IEC 82045-2:2004
+coordinate axis | three reference straight lines in space which intersect at the point of origin, thus forming a coordinate system
+coordinate plane | each of the three planes defined by any two of the coordinate axes
+coordinate system | basis for establishing a relationship between each point in space and the three corresponding coordi­nates and vice versa
+coordinates | set of numerical ordered values (and their corresponding units of measure), giving unequivocally the position of a point in a coordinate system
+cylindrical coordinate system | coordinate system based on a reference system given by a reference horizontally oriented straight line and its origin and units of measure
+cylindrical coordinates | three coordinates of a point in space relative to a cylindrical coordinate system. Note 1 to entry: The three coordinates are  | 1. the radius (distance of the point from the vertical axis passing through the origin);  | 2. the azimuth (angle formed by the vertical plane passing through the point and the origin and the reference horizontally oriented straight line); and  | 3. the height (distance of the point from the horizontal plane passing through the origin).
+data medium | material on which data can be recorded and from which they can be retrieved | IEC 82045-1:2001
+designation | generation of task-specific reference designations for technical objects in accordance with fixed rules | ISO/TS 16952-1:2006
+detailed design | part of the product development process which includes the preparation of the final product definition | ISO 11442:2006
+device | assembly of components to per­form a required function | ISO 14617-1:2005
+edge | intersection of two surfaces | ISO 13715:2000
+edge of undefined shape | edge with a shape that is not specified precisely | ISO 13715:2000
+element | part of a component | ISO 14617-1:2005enlargement scale | scale where the ratio is larger than 1:1 | ISO 5455:1979
+equipment | single parts of a plant, such as vessels, columns, heat exchangers, pumps, compressors | ISO 10628:1997
+full size  | scale with the ratio 1:1 | ISO 5455:1979
+function | activity proper to anything, mode of action by which it fulfils its purpose | ISO 14617-1:2005
+function | intended or accomplished purpose or task | IEC 81346-1:2009
+functional area | combination of groups and/or elements in a unit that can be used independently | ISO/TS 16952-10:2008
+functional group | combination of elements in a unit that can be used independently | ISO/TS 16952-10:2008
+functional unit | <graphical symbols> constructional assembly containing functionally interrelated components or devices | ISO 14617-2:2002
+functional unit | <power plants> item under consideration defined according to function or effect | ISO/TS 16952-10:2008
+geometrical feature |point, line or surface | ISO 129-1:2004
+identification | clear and unambiguous recognition of an object based on identification characteristics with the precision stipulated for the corresponding purpose | ISO/TS 16952-1:2006
+identifier | one or more characters used to identify or name a data category
+industrial complex | number of discrete or interconnected process plants, together with the associated buildings | ISO 10628:1997
+information model | <metadata> conceptual model that describes a specific organization of data to provide communication for a given application context | IEC 82045-2:2004
+information model | <document management> implementation-independent specification of information structures | IEC 82045-1:2001
+layer | self-contained group of data that can be manipulated or displayed individually | IEC 81714-2:2006
+line distance factor | factor defining the distance between succeeding base lines of a text in relation to the lettering height of the characters | IEC 81714-2:2006
+medium | means of storing, representing and communicating information
+multi-level reference designation | <process industry> reference designation derived from a structure path through an overall system | ISO 15519-1:2010
+multi-level reference designation | <industrial systems> reference designation consisting of concatenated single-level reference designations | IEC 81346-1:2009
+object |<document management> entity treated in the process of design, engineering, realization, operation, maintenance and demolition | IEC 82045-1:2001
+ Note 1 to entry: This definition also appears in ISO 15519-1:2010. |
+object | <industrial systems> entity treated in a process of development, imple­mentation, usage and disposal | 
+ Note 1 to entry: The object may refer to a physical or non-physical “thing” that might exist, exists or did exist. | 
+ Note 2 to entry: The object has information associated to it. | IEC 81346-1:2009
+organization unit | part of an organization, with a fixed function | ISO 15226:1999
+part number | unique identification of a part for a particular organization | ISO 7573:2008 
+part reference | identification of component parts of assemblies and/or the identification of individual parts on the same drawing | 
+ Note 1 to entry: Part references are document-based, as opposed to reference designations, which are structure-based. Identical parts on a drawing are required to have the same part reference, preferably a number (according to ISO 6433), while each occurrence of an object in a structure is |
+ required to have a unique reference designation (according to IEC 81346-1). | ISO 7573:2008
+passing | deviation outside the ideal geomet­rical shape of an internal edge | ISO 13715:2000
+physical unit | item under consideration, defined according to construction or configuration | ISO/TS 16952-1:2006
+plant | complete set of technical equip­ment and facilities for solving a defined technical task
+ Note 1 to entry: A plant includes apparatus, machines, instruments, devices, means of transportation, control equipment and other operating equipment. | ISO/TS 16952-10:2008
+plant section | part of a process plant that can, at least occasionally, be operated independently | ISO 10628:1997
+polar coordinate axis | horizontally oriented straight line and its origin |
+polar coordinate system | coordinate system based on a reference system given by a polar coordinate axis and its units of measure |
+polar coordinates | three coordinates of a point in space relative to a polar coordinate system |
+ Note 1 to entry: The three coordinates are: 1) the radius (distance between the point and the origin); 2) the azimuth (angle formed by the vertical plane passing through the point and the origin, and the polar coordinate axis); and 3) the angular height (angle formed by the horizontal plane passing through the origin and the straight line passing through the point and the origin).
+process | <process plants and industry> sequence of chemical, physical or biological operations for the conversion, transport or storage of material or energy | ISO 10628:1997
+ Note 1 to entry: This definition also appears in ISO 15519-1:2010.
+process | <industrial systems> set of interacting operations by which material, energy or information is transformed, transported or stored | IEC 81346-1:2009
+process plant | facilities and structures necessary for performing a process | ISO 10628:1997
+ Note 1 to entry: This definition also appears in ISO 15519-1:2010.
+process step | part of a process which is predominantly self-sufficient and consists of one or several unit operations | ISO 10628:1997
+product | <document management> intended or accomplished result of labour or of a natural or artificial process | IEC 82045-1:2001
+product | <protection notices> thing or substance produced by a natural or artificial process | ISO 16016:2000
+product | <graphical symbols> thing produced by natural process or manufacture; result | ISO 14617-1:2005
+product definition data | data elements required to completely define a product | ISO 16792:2006
+product definition data set | collection of one or more computer file(s) that discloses (directly or by reference), by means of graphic or textual presentations, or combinations of both, the physical and functional requirements of a product | ISO 16792:2006
+rectangular coordinate planes | coordinate planes intersecting at right angles | 
+rectangular coordinate system | coordinate system based on a reference system given by three mutually orthogonal axes (rectangular coordinate axes), originating from the same point (origin), and their units of measure | 
+rectangular coordinates | the three rectangular coordinates of a point in space relative to a rectangular coordinate system are the distance of the point from the coordinate planes, in a given order |
+rectangular coordinate axes | coordinate axes intersecting at right angles |
+reference designation | <process industry> identifier of a specific object with respect to the system of which the object is a constituent, based on one or more aspects of that system | ISO 15519-1:2010
+reference designation | <process plants> code for identification of equipment in the functional position of the process | ISO 10628:1997
+reference designation set | set of reference designations of which at least one unambiguously identifies the object of interest | IEC 81346-1:2009
+ Note 1 to entry: This definition also appears in ISO 15519-1:2010.
+scale | ratio of the linear dimension of an element of an object as represented in the original drawing to the real linear dimension of the same element of the object itself | ISO 5455:1979
+scaling factor | factor by which the coordinates of all defined points of the symbol will be enlarged or reduced in size in relation to the reference point of the symbol | IEC 81714-2:2006
+sharp edge | external or internal edge of part with almost zero deviation from the ideal geometrical shape | ISO 13715:2000
+single-level reference designation | reference designation assigned with respect to the object of which the specific object is a direct constituent in one aspect | IEC 81346-1:2009
+specification of requirements | compilation of market, authority (e.g. laws, regulations, directives) and company related requirements | ISO 11442:2006
+state of an edge | geometrical shape and size of an edge | ISO 13715:2000
+structure | organization of relations among objects of a system describing constituency-relations (consist-of/is-a-part-of) | IEC 81346-1:2009
+sub-contract | contract to carry out part of a larger contract |
+system  | set of interrelated objects consid­ered in a defined context as a whole and separated from their environment |
+ Note 1 to entry: A system is generally defined with the view of achieving a given objective, e.g. by performing a definite function.
+ Note 2 to entry: Elements of a system may be natural or man-made material objects, as well as modes of thinking and the results thereof (e.g. forms of organization, mathematical methods, programming languages).
+ Note 3 to entry: The system is considered to be separated from the environment and from the other external systems by an imaginary surface, which cuts the links between them and the system.
+ Note 4 to entry: The term system should be qualified when it is not clear from the context to what it refers, e.g. control system, colorimetric system, system of units, transmission system.
+ Note 5 to entry: When a system is part of another system, it may be considered as an object as defined in this International Standard. | IEC 81346-1:2009; IEV 151-11-27 modified
+tender | written offer to execute at a stated price or rate an order for the supply of goods or services or the execu­tion of works under given conditions |
+terminal designation | identifier of a terminal with respect to the object to which it belongs, related to one aspect of the object |
+undercut | deviation inside the ideal geometrical shape of an internal edge | ISO 13715:2000
+unit operation | simplest operation in a process according to the theory of process technology | ISO 10628:1997
+works | system of industrial complexes and the associated infrastructure in one location | ISO 10628:1997
+alignment line | line parallel to a given line passing through the projection centre |
+ Note 1 to entry: Its intersection with the pro­jection plane gives the vanishing point of all lines parallel to the given line.
+ Note 2 to entry: Adapted from ISO 5456-4:1996.
+aspect | <views> specified way of viewing an object | IEC 81346-1:2009
+axonometric representation | parallel projection of an object on a single projection plane |
+basic line | intersection between the projection plane and the basic plane |
+basic plane | horizontal plane parallel to the main projection line on which the viewer stands (monocular vision) |
+bird's eye per spective | one-point perspective, seen from above, on a horizontal projection plane |
+cabinet axonometry | oblique axonometry in which the projection plane is parallel to one of the coordinate planes |
+cavalier axonometry | oblique axonometry in which the projection plane is parallel to one of the coordinate planes |
+central projection | projection method in which the projection centre is placed at a finite distance, and all projection lines are converging |
+circle of vision | trace of the vision cone on the projection plane |
+cut | | 
+sectional view | section showing, in addition, outlines beyond the cutting plane | ISO 128-40:2001
+cutting line | line indicating the position of a cutting plane, or the sectioning axis in the case of two or more cutting planes | ISO 128-40:2001
+cutting plane | imaginary plane at which the object represented is cut through | ISO 128-40:2001
+dimetric projection | axonometric representation in which the scales of two coordinate axes are identical, with a different scale on the third coordinate axis
+direct orthographic projection | direct orthographic projection is the representation of an object obtained by the intersection at right angles of projection lines with a plane | ISO 2594:1972
+distance point | each of the two vanishing points of all parallel horizontal lines inclined at 45° to the projection plane
+elevation | view on a vertical plane
+exploded view | drawing of an assembly in pictorial representation in which all the components are drawn to the same scale and correctly orientated rela­tive to each other, but are sepa­rated from each other in their correct sequence along common axes | ISO 5456-1:1996
+first-angle projection | orthographic representation com­prising the arrangement, around the principal view of an object, of some or all of the other five views of that object
+ Note 1 to entry: With reference to the principal view, the other views are arranged as follows:
+ — the view from above is placed underneath;
+ — the view from below is placed above;
+ — the view from the left is placed on the right; - the view from the right is placed on the left;
+ — the view from the rear is placed on the left or to the right, as convenient.
+frog's eye perspective | one-point perspective, seen from beneath, on a horizontal projection plane
+half cut | representation of a symmetrical object which, divided by the centre line, is drawn half in view and half in cut
+ Note 1 to entry: Adapted from ISO 128-40:2001.
+half section | representation of a symmetrical object which, divided by the centre line, is drawn half in view and half in section
+ Note 1 to entry: Adapted from ISO 128-40:2001.
+height of projection | vertical distance of the projection centre from the basic plane | ISO 5456-4:1996
+horizon line | intersection between the horizon plane and the vertical projection plane
+horizontal distance | distance between the projection centre and the projection plane | ISO 5456-4:1996
+horizontal plane | horizontal plane passing through the projection centre
+isometric axonometry | orthogonal axonometry in which any projection line forms three equal angles with respect to the coordinate axes
+isometric representation | projection method in which each of the three coordinate axes is inclined at the same angle to the projection plane | ISO 6412-1:1989
+level contour line | in a topographical projection, intersection of the horizontal plane at a predetermined level above or below a reference level with the surface to be represented
+local cut | representation in which only a part of an object is drawn in cut
+ Note 1 to entry: Adapted from ISO 128-40:2001.
+local section | representation in which only a part of an object is drawn in section
+ Note 1 to entry: Adapted from ISO 128-40:2001.
+main point | intersection between the main projection line and the projection plane
+main projection line | horizontal projection line passing through the projection centre and intersecting the vertical projection plane at right angles to the main point
+mirrored orthographic projection | reproduction of the image in a mirror of an object when the mirror is parallel to the horizontal planes of this object | ISO 2594:1972
+monometric projection | axonometric representation in which all three scales on all three coordinate axes are identical
+oblique axonometry | oblique projection on a single projection plane
+oblique projection | parallel projection in which all projection lines intersect the projection plane at the same angle other than 90°
+one-point perspective | perspective representation of an object placed with one of its faces parallel to the projection plane
+origin | point of intersection of the coordinate axes
+orthogonal axonometry | orthogonal projection on a single plane
+orthogonal projection | parallel projection in which all projection lines intersect the projection plane at right angles
+orthogonal representation | projection method in which the projectors are at right angles to the projection plane | ISO 6412-1:1989
+orthographic representation | orthogonal projections of an object normally positioned with its main faces parallel to the coordinate planes on one or more projection planes coincident with, or parallel to, the coordinate planes
+parallel projection
+projection method in which the projection centre is placed at an infinite distance, and all projection lines are parallel
+perspective representation
+central projection of an object on a projection plane (normally vertical)
+pictorial representation
+parallel or central projection on a single projection plane giving a three-dimensional image of an object | ISO 5456-1:1996
+SEE:   
+plan
+view, section or cut, in a horizontal plane, seen from above
+planometric axonometry
+oblique axonometry in which the projection plane is parallel to the horizontal coordinate plane
+point of view
+projection of the projection centre on the basic plane
+principal view
+view of an object showing the important features, which may be chosen from the point of view of design, assembly, sales, service or maintenance | ISO 5456-1:1996
+projection angle
+angle formed by the projection plane and the horizon plane | ISO 5456-4:1996
+projection centre
+point from which all projection lines originate
+projection line
+projector
+straight line originating from the projection centre and passing through a point on the object to be represented
+projection method
+rules used to obtain a two-dimen­sional image of a three-dimensional object
+projection plane
+plane on which the object is projected in order to obtain a representation of that object
+reduction scale
+scale where the ratio is smaller than 1:1 | ISO 5455:1979
+reference arrow layout
+representation in which views and sections are freely positioned in the drawing
+repeated feature
+periodicity of features of the same spacing or angle referred to one or more reference features | ISO 129-1:2004
+representation
+presentation of drawn information relating to any type of technical drawing
+scale point
+vanishing point of the horizontal direction orthogonal to that bisect­ing the angle formed by the horizon line, and allowing the true length of the projection of the given line to be determined | ISO 5456-4:1996
+section
+representation showing only the outlines of an object lying in one or more cutting planes | ISO 128-40:2001
+station of observation
+orthogonal projection of the projec­tion centre onto the basic plane | ISO 5456-4:1996
+third-angle projection
+orthographic representation com­prising the arrangement, around the principal view of an object, of some or all of the other five views of that object
+Note 1 to entry: With reference to the principal view, the other views are arranged as follows:
+— the view from above is placed above;
+— the view from below is placed underneath;
+— the view from the left is placed on the left;
+— the vi ew from the right is placed on the right;
+— the vi ew from the rear is placed on the left or the right, as convenient.
+three-point perspective
+perspective representation of an object having all its faces inclined to the projection plane
+topographical projection
+orthogonal projection on a horizontal projection plane of the intersections of a series of equidistant horizontal planes with the surface to be represented
+trimetric projection
+axonometric representation in which the scales are different on all three coordinate axes
+true view
+view of the features of an object that lie on a plane parallel to the projection plane; geometrically similar to the corresponding features of the object | ISO 5456-1:1996
+two-point perspective
+perspective representation of an object placed with its vertical faces inclined to, and its horizontal faces at right angles to, the projection plane
+vanishing point
+point at which converging lines meet when representing parallel straight lines in perspective repre­sentation.
+Note 1 to entry: It is the image of the point at infinite distance of all parallel straight lines.
+view
+orthogonal projection showing the visible part of an object and also, if necessary, its hidden outlines
+vision angle
+angle of aperture of the vision cone
+vision cone
+right circular cone having the main projection line as its axis and the projection centre as vertex
+X-ray view
+pictorial representation, normally in perspective, showing complex objects as if they were partially transparent, in order to reveal their main parts
+angular dimension
+angle between two features or the angle of an angular feature of size | ISO 129-1:2004
+auxiliary dimension
+dimensions derived from other dimensions given for information purposes only | ISO 129-1:2004
+basic dimension
+dimensional value
+numerical value of a dimension expressed in a specific unit and indicated on drawings with lines and relevant symbols | ISO 129-1:2004
+chain dimensioning
+method of dimensioning where single dimensions are arranged in a row | ISO 129-1:2004
+coordinate dimensioning
+method of dimensioning from a reference feature in a coordinate system | ISO 129-1:2004
+dimension
+distance between two features or the size of a feature of size | ISO 129-1:2004
+feature of size
+geometrical shape defined by a linear or angular dimension which is a size | ISO 129-1:2004
+linear dimension
+linear distance between two features or the linear size of a feature of size | ISO 129-1:2004
+origin circle
+starting point of running dimensioning or coordinate dimensioning | ISO 129-1:2004
+parallel dimensioning
+method of dimensioning from a reference feature with parallel or concentric dimension lines | ISO 129-1:2004
+reference feature
+feature which is used as the origin for the determination of another feature | ISO 129-1:2004
+resolved dimension
+model value that is rounded off to the number of decimal places required for the design | ISO 16792:2006
+running dimensioning
+method of dimensioning from a reference feature where each feature is dimensioned | ISO 129-1:2004
+tabular dimensioning
+method of dimensioning where features and/or dimensions are indicated by allocated numbers or letters and recorded in tables | ISO 129-1:2004
+terminator
+indication signifying the extremities of a dimension or leader line | ISO 129-1:2004
+centre line
+line on a drawing indicating the geometrical centre of the represented feature(s) | ISO 129-1:2004
+connecting line
+graphical symbol representing a functional connection, a mechanical link, a pipeline, a duct, or an electric connection | ISO 14617-1:2005
+dimension line
+straight or curved line on a drawing between two features, or between a feature and an extension line, or between two extension lines indicating the dimension graphically | ISO 129-1:2004
+extension line
+line connecting the feature(s) to be dimensioned and the ends of the corresponding dimension line | ISO 129-1:2004
+flow line
+representation of the flow path of the inlet or outlet streams or of material, energy or energy carriers | ISO 6412-1:1989
+leader line
+continuous narrow line which establishes the connection between the features of a graphical representation and additional alphanumeric and/or written instructions (notes, technical requirements, item references, etc.) in an unambiguous manner | ISO 128-22:1999
+line
+geometrical object, the length of which is more than half of the line width and which connects an origin with an end in any way, e.g. straight, curved, without or with interruptions | ISO 128-20:1996
+line element
+single part of a non-continuous line, e.g. dots, dashes, which vary in length, and gaps | ISO 128-20:1996
+line of symmetry
+straight line on a drawing indicating the plane or axis of symmetry | ISO 129-1:2004
+line segment
+group of two or more different line elements which form a non-continuous line, e.g. long dash/gap/dot/gap/dot/gap | ISO 128-20:1996
+reference line
+continuous narrow line connecting with the leader line horizontally or vertically and on or at which the additional instructions are indicated | ISO 128-22:1999
+terminal line
+line of a graphical symbol ending at a connect node | ISO 14617-1:2005
+Note 1 to entry: This definition also appears in ISO 81714-1:2010.
+datum system
+ordered list of two or three datums, which can be single or common | ISO 16792:2006
+tolerance of dimension
+difference between the upper and lower tolerance limits of a dimension | ISO 129-1:2004
+central line
+imaginary line in the middle of each line or line element which is a constitutive part of a graphic character set | ISO 3098-0:1997
+character aspect ratio
+character expansion factor
+relation of width to height of a character body | IEC 81714-2:2006
+character body
+rectangle used to enclose a single character shape | IEC 81714-2:2006
+character justification
+alignment of a character in its character body | IEC 81714-2:2006
+character spacing factor
+space between sequent character bodies | IEC 81714-2:2006
+graphic character set
+finite set of different graphic characters in a fixed type of lettering, including letters of a certain alphabet, numerals, diacritical marks, punctuation marks and additional graphical symbols, that is considered complete for a given purpose | ISO 3098-0:1997
+lettering
+<procedure> procedure of writing graphic characters taken from a graphic character set on a (technical) drawing carrier (in addition to the graphical representation) | ISO 3098-0:1997
+lettering
+<drawing character> whole of the non graphical information on a (technical) drawing carrier (text, instructions, dimensions, etc.) | ISO 3098-0:1997
+lettering
+<graphic character set> whole of the graphic characters of a graphic character set which can be used for transferring non graphical information onto a (technical) drawing carrier | ISO 3098-0:1997
+proportional lettering
+lettering with characters having individual width of character bodies | IEC 81714-2:2006
+special character
+character not included in the set of letters A-Z, a-z, numerals and punctuation symbols | ISO 16792:2006
+tabular lettering
+lettering with characters having a constant width of all character bodies | IEC 81714-2:2006
+text
+data in the form of characters, symbols, words, phrases, paragraphs, sentences, tables or other character arrangements, intended to convey a meaning, and whose interpretation is essentially based upon the reader's knowledge of some natural language or artificial language | ISO 81714-1:1999
+arc
+curved line without inflection point | ISO 81714-1:1999
+coded connect node class
+encoded classification of a connect node | IEC 81714-2:2006
+connect block
+openings intended for the presentation of data associated with a connect node | IEC 81714-2:2006
+connect node
+point of access of an object intended for connection | ISO 81714-1:1999
+connecting line directions
+specification of directions under which connecting lines may be drawn onto a schematic connect node | IEC 81714-2:2006
+descriptive block
+openings intended for the presentation of descriptive information | IEC 81714-2:2006
+electrical node
+<schematic> connect node designed for connecting to a representation of an electrical network | IEC 81714-2:2006
+embedded area
+area containing the graphical symbol | IEC 81714-2:2006
+function symbol
+graphical symbol representing an object with a defined behaviour, and provided with input and output functional nodes | IEC 81714-2:2006
+functional node
+<schematic> connect node designed for connecting to a representation of a functional network | IEC 81714-2:2006
+graphical primitives
+constructs like lines, circular arcs, polylines, ellipses, etc., needed to draw a figure in a computer-aided drawing system | IEC 81714-2:2006
+graphical symbol
+visually perceptible figure used to transmit information independently of language | ISO 81714-1:1999
+Note 1 to entry: This definition also appears in ISO 15519-1:2010.
+graphical symbol occurrence
+graphical symbol presented in a diagram including the presentation of data associated with the object being represented | IEC 81714-2:2006
+identifying block
+openings intended for the presen­tation of reference designations | IEC 81714-2:2006
+linkage node
+<schematic> connect node designed for connecting to a representation of a mechanical linkage network | IEC 81714-2:2006
+matter node
+<schematic> connect node designed for connecting to a representation of a network intended for transport of matters | IEC 81714-2:2006
+node name
+identification of a connect node | IEC 81714-2:2006
+opening
+definition of a possibility to enter information associated with the object being represented by a graphical symbol occurrence | IEC 81714-2:2006
+optical node
+<schematic> connect node designed for connecting to a representation of an optical fibre network | IEC 81714-2:2006
+port
+terminal
+point of access of an object intended for connection | IEC 81714-2:2006
+product symbol
+graphical symbol representing an object with a defined behaviour, and provided with nodes, specifically implemented in either hardware or software | IEC 81714-2:2006
+reference point
+origin of the coordinate system used in the description of all the graphical elements of the graphical symbol | ISO 81714-1:1999
+reference symbol
+graphical symbol unambiguously identified and provided with openings for presentation of data associated with an object represented in a diagram by a graphical symbol occurrence | IEC 81714-2:2006
+symbol classification
+classification of an object represented by a graphical symbol | IEC 81714-2:2006
+symbol classification code
+encoded classification of an object represented by a graphical symbol | IEC 81714-2:2006
+symbol description
+textual description of the meaning of a graphical symbol | IEC 81714-2:2006
+symbol family
+set of graphical symbols with a common conception using graphical characteristics with specific meanings | ISO 81714-1:1999
+symbol name
+identifier of a graphical symbol within a symbol library | IEC 81714-2:2006
+symbol type
+attribute for a classification of a graphical symbol used e.g. for a simplified management of symbols in computer-aided engineering (CAE) systems and allowing special evaluations (e.g. for terminals, devices, detached representation, attached represen­tation, etc.) | IEC 81714-2:2006
+variant name
+identifying name of a variant of a symbol | IEC 81714-2:2006
+wave node
+<schematic> connect node designed for connecting to a representation of a wave propagation network | IEC 81714-2:2006
+annotation
+dimension(s), tolerance(s), note(s), text or symbol(s) visible without any manual or external manipulation | ISO 16792:2006
+annotation plane
+conceptual plane containing annotation | ISO 16792:2006
+assembly model
+model in which the product described is an assembly of two or more items | ISO 16792:2006
+associated entities
+portion of a product definition to which annotation pertains | ISO 16792:2006
+associated group
+user-defined set of related digital elements | ISO 16792:2006
+associativity
+established relationship between digital elements | ISO 16792:2006
+attribute
+dimension, tolerance, note, text or symbol required to complete the product definition or model feature of the product that is not visible but available upon querying the model | ISO 16792:2006
+design model
+portion of the data set that contains model and supplemental geometry | ISO 16792:2006
+digital element
+geometric element, model feature, group of model features, annotation, associated group or attribute that exists in a data set | ISO 16792:2006
+digital element identifier
+label or name used to specify a unique digital element | ISO 16792:2006
+direction dependent tolerance
+tolerance that invokes a zone of parallel lines or curves | ISO 16792:2006
+flagnote
+note that is located with the general notes but applies only at specific areas or points on the model or drawing | ISO 16792:2006
+geometric element
+graphic entity used in a data set | ISO 16792:2006
+installation model
+model in which the product described is an installation, showing parts or assemblies and a partial or complete representation of the installation site | ISO 16792:2006
+management data
+data required for the release, control and storage of product definition data as well as other relevant engineering data | ISO 16792:2006
+model
+combination of design model, annotation and attributes that describes a product | ISO 16792:2006
+model
+three-dimensional physical or digital description of the ideal shape of an object | ISO 29845:2011
+model coordinate system
+representation of a Cartesian coordinate system in a product definition data set | ISO 16792:2006
+model feature
+model geometry that represents a physical portion of a part | ISO 16792:2006
+model geometry
+geometric elements in product definition data which represent designed product | ISO 16792:2006
+model value
+numerical value derived by querying the model that quantifies the form and spatial relationships of the geometry composing a design model or assembly of models to the precision (number of decimal places) of the computer system | ISO 16792:2006
+query
+means of interrogating a digital element or the relationship between digital elements | ISO 16792:2006
+represented line element
+supplemental geometry line or curve segment indicating the orientation of a direction-dependent tolerance | ISO 16792:2006
+saved view
+stored and retrievable specific orientation and a magnification factor of a mode | ISO 16792:2006
+supplemental geometry
+geometric elements included in product definition data to communicate design requirements but not intended to represent a portion of the manufactured product | ISO 16792:2006
+configurable
+capability of the system to allow user to select, from pre-programmed functions (modular software units), those which are necessary to accomplish a control strategy or other complex functions, without the use of computer language | ISO 3511-4:1985
+distributed control system
+system for process control purposes which, while being functionally integrated, consists of sub-systems which may be physically separated and remotely located from one another | ISO 3511-4:1985
+process computer
+programmable device which operates in real time on process data, on-line (primarily sensor based), to perform user specifiable supervision and/or control functions | ISO 3511-4:1985
+programmable
+capability of the system to accept instructions in computer language given by the user for performing control strategies or complex functions | ISO 3511-4:1985
+screen dump
+hard copy of a displayed image | ISO 16792:2006
+shared display
+shared control system
+system in which shared functions, such as display, control and communications, are shared in time, i.e. “time shared” functions | ISO 3511-4:1985
+software link
+interconnection of system functions via keyboard or program instructions (soft wiring as opposed to hard wiring) | ISO 3511-4:1985
+aggregated document
+document containing separately identified documents (parts) that are logically dependent but can be physically independently managed | IEC 82045-1:2001
+alarm diagram
+diagram which shows the design of an alarm installation in a simplified way
+angular chart
+chart showing the relation between the angular position of an object and the function | ISO 29845:2011
+annotated design model
+combination of design model, annotation and attributes that describes a product | ISO 29845:2011
+apparatus list
+list providing information about the constituent functional components included in a system | ISO 29845:2011
+architectural drawing
+drawing which shows the appearance of general arran­gements, assemblies, component ranges and details of a building
+archive master
+document replica for long-term storage in a trusted encoding format | ISO 11442:2006
+as-built drawing
+record drawing
+drawing used to record the details of a construction following its completion
+assembly drawing
+drawing representing the relative position and/or shape of a high-level group of assembled parts
+assembly instruction
+document providing information of how and in what sequence the different parts shall be assembled to receive a specific end product | ISO 29845:2011
+bar schedule
+component range drawing in which the lengths, sizes, bending dimensions and identification of reinforcement bars are given
+base drawing
+drawing which shows a certain stage of design, and which is used by the designers on a project as basic information for further design
+bill-of-material
+BOM
+presentation of the constituents in a product structure with the possibility to adapt the level of decomposition to actual need | ISO 29845:2011
+bill of quantities
+document for tendering, usually prepared in a standard form, comprising both a descriptive list of quantities of works and a description of the materials, workmanship and other matters required for construction works
+blasting plan
+drawing which presents the scope of the blasting work, including location and firing pattern of explosive charges, division into stages, charges and all other information necessary to satisfy safety and other requirements
+block diagram
+overview diagram predominantly using block symbols | ISO 15519-1:2010
+block plan
+drawing which identifies a site and locates the outlines of construction works in relation to a town plan or similar document
+brief
+working document which specifies at any point in time the relevant needs and aims, the resources of the client and user, the context of the project and any appropriate design requirements within which all subsequent briefing (when needed) and designing can take place
+building permit drawing
+document which forms the basis for the decision on a building permit
+bulk excavation plan
+excavation plan which specifies information for the realization of overall excavation works
+cable diagram
+diagram providing information on cables, such as the identification of the conductors, the location of the ends, and, if needed, the charac­teristics, routes and function
+cable-run drawing
+drawing which shows the location of cables in an electrical installation
+CAD drawing
+selected parts of a computer-aided design (CAD) model as presented on screen or on paper
+Note 1 to entry: Visibility on the drawing can be controlled by views and layers. The drawing can contain additional graphics, such as border-lines, title-block and legends. CAD drawings can also be produced independently without an underlying CAD model (a drawing-oriented approach as opposed to the model-oriented approach). | ISO 13567-1:1998
+calculation sheet
+document providing the results of calculations regarding essential product characteristics | ISO 29845:2011
+ceiling drawing
+drawing which specifies the scope and workmanship of the ceilings of a storey of a building, and which is normally in mirrored projection
+chart
+document of information in the form of a table, graph, or diagram | ISO 29845:2011
+SEE:   
+circuit diagram
+diagram providing information about the circuitry of objects | ISO 15519-1:2010
+complementary document
+document, referenced in the main document, containing specifying information | ISO 11005:2010
+completion certificate
+document which certifies completion of the work
+component drawing
+drawing depicting a single component and which includes all the information required for the definition of the component
+component range drawing
+drawing showing the size, system of reference (type of component and identification number) and performance data of a range of components of a given type
+component schedule
+component range drawing which lists components and which may contain information in the form of a table
+compound document
+document consisting of several embedded files in a specified file structure | IEC 82045-1:2001
+connection diagram
+diagram which shows the electrical connections of an installation or equipment
+connection table
+table which lists the connections on different levels, internal and external, of the installation | ISO 29845:2011
+construction drawing
+drawing which specifies construction information
+content
+subject information of a document | IEC 82045-1:2001
+context
+frame of reference in which a construct is specified | IEC 82045-2:2004
+contract
+legally enforceable agreement to supply goods, execute work or provide services
+contract document
+document forming part of a contract
+control and surveillance drawing
+drawing showing an opto-electrical installation designed to detect and signal the presence, entry or attempted entry of an intruder
+coordinate data list
+list providing information about certain positions on a part represented in a Cartesian coordinate system | ISO 29845:2011
+co-ordination drawing
+base drawing which is used for co-ordination among the designers on a project
+data
+<digital product definition> information represented in a formal manner suitable for communication, interpretation or processing by human beings or computers | ISO 16792:2006
+data
+<metadata> representation of facts, concepts, or instructions in a formalized manner suitable for communication, interpretation, or processing by human beings or by automatic means | IEC 82045-2:2004
+data
+<document management> re-interpretable presentation of information in a formalized manner suitable for communication, interpretation or processing | IEC 82045-1:2001
+delivery plan
+document which specifies dates for delivery of material and execution of work
+demolition drawing
+general arrangement drawing which specifies the scope and performance of demolition, and which may also specify parts to be dismantled for re-use, in accordance with agreed rules
+design meeting minutes
+document which records decisions of essential importance made during the design process
+detail
+representation on a drawing of a part, or a feature of a part or an assembly, generally enlarged, to give the required information
+detail drawing
+drawing showing parts of a construction or a component, generally enlarged, and including specific information about the form and construction or about the assembly and joints
+detailed excavation plan
+excavation plan which specifies detailed information for excavation works
+development plan
+document which covers an extensive area, and which controls both development and use of land and water areas, etc., and which is normally prepared by a planning authority
+diagram
+<process industry> drawing showing the functions of the objects composing a system and their interrelations using graphical symbols | ISO 15519-1:2010
+diagram
+<documentation> technical document showing the functions of the objects composing a system and their interrelations using graphical symbols | ISO 29845:2011
+SEE:   
+dimensional drawing
+drawing which specifies the dimen­sions necessary for construction or production
+document
+<document management> fixed and structured amount of information that can be managed and interchanged as a unit between users and systems | IEC 82045-1:2001
+Note 1 to entry: This definition also appears in ISO 11442:2006.
+document
+<process industry> fixed and structured amount of information intended for human perception that can be managed and interchanged as a unit between users and systems | ISO 15519-1:2010
+document
+<protection notices> any medium with information recorded on or in it | ISO 16016:2000
+document list
+formally built-up inventory in which all relevant documents for a specific purpose are listed | ISO 29845:2011
+document part
+part of a document having a function of its own | IEC 82045-1:2001
+document replica
+true or close-to-true copy of an original document | ISO 11442:2006
+document type
+document defined with respect to its specific content of information, function and form of presentation
+Note 1 to entry: Adapted from ISO 15519-1:2010.
+documentation
+<document management> collection of documents related to a given subject | IEC 82045-1:2001
+documentation
+<process industry> continuous and systematic compilation and pro­cessing of recorded information for the purpose of storage, classifying, retrieval, utilization, or transmission | ISO 15519-1:2010
+SEE:   
+door schedule
+component range drawing of doors and their hardware, which may contain information in the form of a table
+draft drawing
+preliminary drawing
+drawing serving as a basis for the choice of a final solution and/or for discussion between the involved parties
+drainage drawing
+drawing which shows the scope and workmanship of drainage works
+drawing
+technical information, given on an information carrier, graphically pre­sented in accordance with agreed rules and usually to scale | ISO 15519-1:2010
+earthwork drawing
+drawing which specifies the scope and workmanship of earthwork, cut and fill
+electrical construction drawing
+drawing which comprises installa­tions for power supply, lighting, electric heating, motor operation, telecommunications, voltage adjustment, etc.
+electrical layout drawing
+drawing which shows wires and cables, exterior light fittings and other external electrical installations in a comprehensive way for an installation or a site
+elevation drawing
+drawing which shows a view on a vertical plane
+evacuation drawing
+drawing which shows ways of evacuation and how the fire brigade and other emergency services are called and gain access
+excavation plan
+drawing which specifies the information necessary for the realization of excavation works
+fabrication drawing
+part drawing of an assembly of fully specified items, permanently joined together | ISO 29845:2011
+facade drawing
+elevation drawing which shows an external view of a building
+file drawing
+as-built drawing which complies with certain requirements for archive durability
+final certificate
+document which authorizes final payment
+fire-alarm drawing
+drawing which shows the location of fire-alarm equipment and the cable network which is part of a fire-alarm installation, and which specifies the detectors, cables and central unit
+fire-cell drawing
+drawing which shows the division of a building into fire-cells
+flow diagram
+diagram representing the procedure, configuration and function of a process plant or plant section | ISO 10628:1997
+SEE:   
+form-work drawing
+drawing which specifies the execution of moulds in detail
+function diagram
+diagram providing information about the functional behaviour of a system | ISO 15519-1:2010
+furnishing plan
+drawing which specifies the scope and location of furniture and equipment
+general arrangement drawing
+drawing showing the layout of construction works, including location, item references and sizes
+general assembly drawing
+assembly drawing identifying all groups and parts of a complete product
+general specification
+document which provides a general description of materials to be provided and works to be performed
+graph
+diagram showing the relation between variable quantities, typically of two variables, each measured along a pair of lines at right angles | ISO 29845:2011
+SEE:   
+ground planning drawing
+groundworks drawing which specifies the scope and performance of the top layer and covering on footpaths, roadways, planting areas, etc.
+groundworks drawing
+drawing which comprises ground planning drawings, excavation plans, water supply and sewerage drawings
+hard copy
+printed or plotted copy of all or part of a data set | ISO 16792:2006
+heating, ventilation and air-conditioning drawing
+HVAC drawing
+drawing which shows systems for heating, ventilation, air-conditioning, cooling and heating pump, etc.
+installation diagram
+document showing the location of the components of an installation and their interconnections by means of graphical symbols | ISO 15519-1:2010
+SEE:   
+SEE:   
+illustration drawing
+drawing showing figures and sketches for any general purpose which is not covered by the more specific document types | ISO 29845:2011
+interconnection diagram
+diagram representing the connections between the different units of an installation | ISO 3511-3:1984
+interface drawing
+drawing giving information for the assembly and matching of two parts, concerning, for example, their dimensions, configuration limitations, performance and test requirements
+interference model
+model that shows the overall geometry and the space required as well as possible collisions | ISO 29845:2011
+interim certificate
+document that authorizes payment to be made for work carried out or materials supplied up to a given date
+invitation to tender
+document which contains an invitation to selected firms to submit tenders, or announcement that tenderers are invited to carry out certain works
+landscape drawing
+drawing which shows the composition and processing of the ground for roads, planted areas, external installations, etc.
+layout drawing
+location drawing
+drawing showing the location of sites, structures, buildings, spaces, elements, assemblies or components
+levelling drawing
+drawing which records the level of points which have been levelled
+lighting drawing
+drawing which specifies the type and location of lighting, lighting equipment and lighting system circuitry
+list
+document in which the information is presented in columns and rows | ISO 29845:2011
+main document
+document containing the complete compilation of the information by which a part or an assembly is specified
+Note 1 to entry: The information can be given directly in the main document or by reference to complementary documents. | ISO 11005:2010
+mains chart
+drawing which shows the main pipes in pipe systems for water, sewage and heating
+maintenance manual
+document which contains advice on care and servicing requirements of a construction works
+manufacturing drawing
+drawing which provides all the necessary information for production
+masonry drawing
+drawing which shows a view, cut and/or section of a construction of bricks, stones or blocks
+measuring-in drawing
+drawing which specifies positions of identified points in plan and level
+network diagram
+overview diagram which shows the connections between different kinds of installations for transmitting electrical power, telecommuni­cations, equipment, etc.
+network map
+overview diagram showing a network on a map | ISO 15519-1:2010
+nomogram
+chart from which it is possible to determine without calculation the approximate numerical value of one or more quantities
+operational manual
+document which contains advice on the use of equipment
+original document
+document onto which the technical description or definition of a product is recorded and which forms the base for future changes | ISO 11442:2006
+original drawing
+drawing giving the currently approved information or data and on which the latest revision has been recorded
+outline drawing
+drawing giving the outside peripheral envelope, overall dimensions and mass of an object
+overlay drawing
+drawing which is produced on a transparent medium and thus can be copied together with other drawings related to the same subject and at the same scale
+overview diagram
+diagram providing a comprehensive view of an object with low degree of detailing | ISO 15519-1:2010
+SEE:   
+page
+portion in a low-level physical substructure of a document, providing a presentation-dependent division of the document content (primarily applied in the context of a text-based document) | ISO 7200:2004
+part definition
+text-based document that may be supplied with a drawing image of the defined part, specifying property requirements for the part described by the document | ISO 29845:2011
+part drawing
+drawing depicting a single part (which cannot be further disassembled) and which includes all the necessary information required for the definition of the part
+part model
+model in which the product described is one single item | ISO 29845:2011
+partial arrangement drawing
+drawing showing a delimited part of a general arrangement drawing, usually to a larger scale and giving supplementary information
+parts list
+list of elements of an object
+Note 1 to entry: Adapted from ISO 15519-1:2010.
+pattern drawing
+drawing depicting a pattern made of wood, metal or other material, around which moulding material is placed to make a mould for castings
+performance specification
+document which specifies requirements on the function of a building, and which is normally separate for construction and installation works
+piling drawing
+drawing which shows the scope and workmanship of piling work
+piping and instrumentation diagram
+P&ID
+process flow diagram representing the technical realization of a process system by means of graphical symbols for equipment, connections and process measure­ment and control functions | ISO 15519-1:2010
+planting and fittings drawing
+drawing which specifies the scope and workmanship of plants, and loose and fixed equipment
+process flow diagram
+diagram illustrating the configuration of a process system or process plant by means of graphical symbols | ISO 15519-1:2010
+process specification
+document that defines the type and sequence of steps of a process used to produce a part | ISO 29845:2011
+production drawing
+drawing giving all information about a part required for its production
+quality plan
+document defining a set of activities planned that helps achieve quality in the project being executed | ISO 29845:2011
+rebuilding drawing
+general arrangement drawing which specifies the scope and workmanship of rebuilding and shows existing and new parts, and which may also show parts which are to be demolished, in accord­ance with agreed rules
+regulation installation drawing
+drawing which specifies the setting values for an installation
+reinforcement drawing
+drawing which shows the position and designation of rods, bars, wires and cables embedded in a reinforced concrete structure
+replica fidelity
+level of ability of a document replica to promote the information of the original document | ISO 11442:2006
+report
+account given of a matter after investigation or consideration | ISO 29845:2011
+requirement specification
+document compiled and evaluated with the requirements from the markets (customer), authorities, and the company itself | ISO 29845:2011
+reuse dismantling drawing
+drawing which shows how a building shall be dismantled for reuse
+roof plan
+drawing which specifies the roof in detail as seen from above
+room relation drawing
+drawing which shows the disposition of rooms in accordance with the brief as regards the relative positions of rooms and their relations to others
+setting-out drawing
+drawing used to establish marks and lines to define the position and level of elements for construction work so that the work can proceed with reference to them
+sheet
+segment of a technical drawing | ISO 7200:2004
+signal list
+list providing information about signals defined as input or output of functional units | ISO 29845:2011
+single-line diagram
+diagram which shows the composition of a service installation in a simplified way, using single lines only
+site plan
+location drawing giving the position of construction works in relation to the setting out points, the means of access and the general layout of a site
+sketch
+drawing prepared freehand or in a CAD system and not necessarily to scale | ISO 29845:2011
+SEE:   
+space envelope drawing
+drawing showing the maximum space which can be occupied for an intended design solution and the geometrically significant interfaces of components and assemblies which are not yet designed in detail | ISO 29845:2011
+space envelope model
+model showing the maximum space which can occupied for an intended design solution and the geometrically significant interfaces of components and assemblies which are not yet designed in detail | ISO 29845:2011
+standard
+document established by consensus and approved by a recognized body, that provides, for common and repeated use, rules, guidelines and characteristics or their results, aimed at the achievement of the optimum degree of order in a given context | ISO/IEC Guide 2:2004, 3.2
+Note 1 to entry: This definition appears in ISO 29845:2011.
+structural engineering drawing
+drawing which comprises structural frames, non-structural frames and reinforcements with their dimensions
+structural-frame drawing
+drawing of a structure that relies wholly or mainly on a frame for strength and stability
+structure diagram
+chart which shows the relation between different objects in a system or a product from different points of view presented graphically as a hierarchical tree | ISO 29845:2011
+sub-assembly drawing
+assembly drawing on a lower structural level showing only a limited number of groups or parts
+supplier drawing
+drawing defining a part developed and owned by an external supplier | ISO 29845:2011
+tabular drawing
+drawing listing differing variations of a specific configuration using a single common illustration
+technical document
+document of the type and completeness required for technical purposes | ISO/TS 16952-1:2006
+technical product documentation
+TPD
+means of conveying all or part of a design definition or specification of a product
+technical product specification
+TPS
+technical product documentation comprising the complete design definition and specification of a product for manufacturing and verification purposes
+Note 1 to entry: A TPS (which may contain drawings, 3-D models, parts lists or other documents forming an integral part of the specification, in whatever format they may be presented) may consist of one or more TPDs.
+technical specification
+document specifying the requirements for one specific part or for a group of parts with equal characteristics | ISO 29845:2011
+test plan
+document describing the scope realization resources and plans for the intended test activities | ISO 29845:2011
+test report
+compilation of tests carried out at a new part, assembly, product or system and documentation of test results | ISO 29845:2011
+test specification
+specification explaining how to perform the test activities according to the test plan | ISO 29845:2011
+textual
+presentation form using characters, for example in written instructions and descriptions | ISO 29845:2011
+traffic and parking plan
+drawing which shows routes of traffic movement and areas for parking
+viewing copy
+document replica for viewing, commenting and for production of hard copies | ISO 11442:2006
+water supply and sewerage drawing
+drawing showing pipelines which convey a general water supply and a system of sewers and ancillary works
+window schedule
+component range drawing of windows and window doors including their hardware, which may contain information in the form of a table
+approval
+confirmation by an authority that something conforms to previously defined requirements | IEC 82045-1:2001
+approval phase
+stage in which the document content is formally checked and approved | ISO 11442:2006
+archiving phase
+stage in which product documents are removed from the storage of active documents to an historic archive | ISO 11442:2006
+classification
+method of structuring a defined type of item (objects or documents) into classes and subclasses in accordance with their charac­teristics | ISO 7200:2004
+configuration
+arrangement of the elements of a system | IEC 82045-1:2001
+creation phase
+stage in which the design documentation work is carried out | ISO 11442:2006
+data field
+bounded area used for a specific category of data | ISO 7200:2004
+data transfer
+moving of data from one computer process to another in an ordered form | ISO 7200:2004
+database
+collection of data organized according to a conceptual structure describing the characteristics of these data and the relationships among their corresponding entities, supporting one or more application areas | IEC 82045-1:2001
+document issue
+identified version of a document | ISO 11442:2006
+document life cycle
+period from the conceptual idea to the logical and physical deletion of a document | IEC 82045-1:2001
+document revision
+formally approved document version | IEC 82045-1:2001
+document set
+collection of documents that are managed together as a unit for a specific purpose | IEC 82045-1:2001
+document status
+step or stage in the life cycle of a document issue | ISO 11442:2006
+document version
+identified state of a document in its life cycle, recorded so that it can be retrieved as a record or for distribution purposes | IEC 82045-1:2001
+effectivity
+identification of the valid use of a document version tracked by date or event | IEC 82045-1:2001
+electronic document management system
+EDMS
+computer-based application dealing with the management of documents throughout the document life cycle | IEC 82045-1:2001
+maturity level
+purpose-oriented degree of completeness of information with regard to the intended final object which is reflected in documents | IEC 82045-1:2001
+metadata element identifier
+unambiguous language-independent name of the data element composed of a string of characters, based on the English language | IEC 82045-2:2004
+metadata element label
+context-dependent word or phrase (string of characters) associated with a metadata element in a given language and intended for visual presentation | IEC 82045-2:2004
+metadata for documents
+data for the description of documents and their management | IEC 82045-1:2001
+product life cycle
+period from the conceptual idea to the ultimate disposal of a product | IEC 82045-1:2001
+product life cycle
+period of time from the first idea to the ultimate disposal of a product | ISO 15226:1999
+release
+formal activity of an authority declaring the document effective for a declared purpose in the process cycle | IEC 82045-1:2001
+release
+making an approved document available for its intended purpose | ISO 11442:2006
+release phase
+stage in which a document is released | ISO 11442:2006
+revision notice
+document part or separate document recording all the revisions made on a product document | ISO 11442:2006
+revision phase
+stage in which changes to product documents are made | ISO 11442:2006
+segment
+fixed portion of a document, sharing the identification number with the other portions, but individually presented and stored | ISO 7200:2004
+signature document
+copy of the original document with the addition of approval required by customer or authority, constituting an original for a certain approval stage | ISO 11442:2006
+storage/active phase
+stage in which the active product documents are stored | ISO 11442:2006

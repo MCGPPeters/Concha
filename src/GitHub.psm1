@@ -191,13 +191,24 @@ Function Clone-GitHubRepository
 	    [Parameter(Mandatory = $true)]
 	    [string] $OwnerName,
 	    [Parameter(Mandatory = $true)]
-	    [string] $RepositoryName
+	    [string] $RepositoryName,
+        [Parameter(Mandatory = $false)]
+		[switch] $UseSSH = {Get-GitHubSetting -Name UseSSH}.Invoke()
     )
     Process
     {
-        [bool]$UseSSH = Get-GitHubSetting -Name UseSSH
+        $repository = Get-GitHubRepository -RepositoryName $RepositoryName -OwnerName $OwnerName
 
+        if($UseSSH.Value.ToBool() -eq $true) 
+		{
+			$cloneUrl = $repository.SshUrl
+		}
+		else 
+		{
+			$cloneUrl = $repository.CloneUrl
+		}
 
+        git clone $repository.CloneUrl $Path
     }
 }
 
@@ -528,7 +539,12 @@ Function Remove-GitHubRepository
 		}
 		catch 
         {
-			Format-Response -Response $_.Exception.Response | Write-Error
+			if($_.Exception.Response.StatusCode -eq 404) {
+				$_.Exception.Response
+			}
+			else {
+				Format-Response -Response $_.Exception.Response | Write-Error
+			}
 		}
 	}
 }
@@ -613,6 +629,30 @@ Function Get-ParameterWithValue
         Where-Object -Value -NE 
     }
         
+}
+
+class GitHubSetting
+{
+    [String]$Name
+    [String]$Value
+}
+
+#Function Set-GitHubSetting -Name UseSSH -Value $UseSSH
+
+Function Get-GitHubSetting
+{
+    [CmdletBinding()]
+    [OutputType([GitHubSetting])]
+    Param 
+	(
+        [String] 
+		$Name
+    )
+    Process
+    {
+        #todo : actual getting from configuration
+        if($Name -eq 'UseSSL') {$true}
+    }
 }
 
 Function ConvertTo-HashTable 

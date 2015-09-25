@@ -1,7 +1,6 @@
 ﻿using namespace System
 
-namespace DependencyManagement
-{
+
     class Dependency
     {
         [DependencyName]$DependencyName
@@ -19,4 +18,3 @@ namespace DependencyManagement
         [Int]$Minor
         [Int]$Patch
     }
-}

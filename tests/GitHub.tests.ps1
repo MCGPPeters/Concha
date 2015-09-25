@@ -7,37 +7,43 @@
 $scriptpath = $MyInvocation.MyCommand.Path
 $dir = Split-Path $scriptpath
 
-Import-Module $dir\GitHub.psm1
+Import-Module -Name (Join-Path -Path $PSScriptRoot\..\src -ChildPath 'GitHub.psm1')
 
-$accessToken =  [Environment]::GetEnvironmentVariable('github_access_token', 'User')
 $organizationName = "GitHubAPITesting"
 $repositoryNameForUser = "integrationTestRepositoryUsingGitHubAPIForUser"
 $repositoryNameForOrganization = "integrationTestRepositoryUsingGitHubAPIForOrganization"
 
 Describe "Creating a new GitHub repository" {
-	
 	Context "For a user" {
 
-		New-GitHubRepository -AccessToken $accessToken -Name $repositoryNameForUser -AutoInit -OutVariable gitHubRepository -Verbose
+		try {
+			Remove-GitHubRepository -Owner (Get-GitHubAuthenticatedUser).login -RepositoryName $repositoryNameForUser -OutVariable result -Debug -ErrorAction SilentlyContinue
 
-		$login = $gitHubRepository.owner.login
+			New-GitHubRepository -Name $repositoryNameForUser -AutoInit -OutVariable gitHubRepository -Verbose
 
-		It "creates the repository on GitHub" {
-			$gitHubRepository.clone_url | Should Be "https://github.com/$login/$repositoryNameForUser.git"
+			$login = $gitHubRepository.Owner.Login
+
+			It "creates the repository on GitHub" {
+				$gitHubRepository.CloneUrl | Should Be "https://github.com/$login/$repositoryNameForUser.git"
+			}
 		}
-
-		Remove-GitHubRepository -AccessToken $accessToken -Owner $login -RepositoryName $repositoryNameForUser
+		finally{
+			Remove-GitHubRepository -Owner $login -RepositoryName $repositoryNameForUser
+		}
 	}
 	
 	Context "For an organization" {
-	
-		New-GitHubRepository -AccessToken $accessToken -Name $repositoryNameForOrganization -OrganizationName $organizationName -AutoInit -OutVariable gitHubRepository
-	
-		It "Creates the repository on GitHub" {
-			$gitHubRepository.clone_url | Should Be "https://github.com/$organizationName/$repositoryNameForOrganization.git"
-		}
 
-		Remove-GitHubRepository -AccessToken $accessToken -Owner $organizationName -RepositoryName $repositoryNameForOrganization
+		try {
+			New-GitHubRepository -Name $repositoryNameForOrganization -OrganizationName $organizationName -AutoInit -OutVariable gitHubRepository
+	
+			It "Creates the repository on GitHub" {
+				$gitHubRepository.CloneUrl | Should Be "https://github.com/$organizationName/$repositoryNameForOrganization.git"
+			}
+		}
+		finally{
+			Remove-GitHubRepository -Owner $gitHubRepository.Owner.Login -RepositoryName $repositoryNameForOrganization
+		}
 	}
 }
 
@@ -45,46 +51,65 @@ Describe "Forking a GitHub repository" {
 	
 	Context "From an existing repository" {
 
-		New-GitHubRepository -AccessToken $accessToken -Name $repositoryNameForOrganization -OrganizationName $organizationName -AutoInit
-		New-GitHubFork -AccessToken $accessToken -Owner $organizationName -RepositoryName $repositoryNameForOrganization -OutVariable gitHubFork
+		try {
+			New-GitHubRepository -Name $repositoryNameForOrganization -OrganizationName $organizationName -AutoInit
+			New-GitHubFork -Owner $organizationName -RepositoryName $repositoryNameForOrganization -OutVariable gitHubFork
 
-		$login = $gitHubFork.owner.login
+			$login = $gitHubFork.Owner.Login
 
-		It "Creates a fork on GitHub" {
-			$gitHubFork.clone_url | Should Be "https://github.com/$login/$repositoryNameForOrganization.git"
+			It "Creates a fork on GitHub" {
+
+				$gitHubFork.CloneUrl | Should Be "https://github.com/$login/$repositoryNameForOrganization.git"
+			}
 		}
-
-		Remove-GitHubRepository -AccessToken $accessToken -Owner $login -RepositoryName $repositoryNameForOrganization
+		finally{
+			Remove-GitHubRepository -Owner $organizationName -RepositoryName $repositoryNameForOrganization
+			Remove-GitHubRepository -Owner $login -RepositoryName $repositoryNameForOrganization
+		}
 	}
 
 	Context "From an existing repository into an organization" {
 
 		$organizationNameForForking = ($organizationName + "Forks")
 
-		New-GitHubRepository -AccessToken $accessToken -Name $repositoryNameForOrganization -OrganizationName $organizationName -AutoInit
-		New-GitHubFork -AccessToken $accessToken -Owner $organizationName -RepositoryName $repositoryNameForOrganization -OrganizationName $organizationNameForForking  -OutVariable gitHubFork
+		try{
+			New-GitHubRepository -Name $repositoryNameForOrganization -OrganizationName $organizationName -AutoInit
+			New-GitHubFork -Owner $organizationName -RepositoryName $repositoryNameForOrganization -OrganizationName $organizationNameForForking  -OutVariable gitHubFork
 
-		It "Creates a fork on GitHub into the organization" {
-			$gitHubFork.clone_url | Should Be "https://github.com/$organizationNameForForking/$repositoryNameForOrganization.git"
+			It "Creates a fork on GitHub into the organization" {
+
+				$gitHubFork.CloneUrl | Should Be "https://github.com/$organizationNameForForking/$repositoryNameForOrganization.git"
+			}
 		}
-
-		Remove-GitHubRepository -AccessToken $accessToken -Owner $organizationName -RepositoryName $repositoryNameForOrganization
-		Remove-GitHubRepository -AccessToken $accessToken -Owner $organizationNameForForking -RepositoryName $repositoryNameForOrganization
+		finally{
+			Remove-GitHubRepository -Owner $organizationName -RepositoryName $repositoryNameForOrganization
+			Remove-GitHubRepository -Owner $gitHubFork.Owner.Login -RepositoryName $repositoryNameForOrganization
+		}
 	}
+
+	Context "From a repository that has no git content" {
+		# New-GitHubFork : Body :{"message":"The Repository resource exists, but it conta
+		# ins no Git content. Empty repositories cannot be forked.","documentation_url":"
+		# https://developer.github.com/v3/repos/forks/#create-a-fork"}
+		# At line:172 char:39
+		# +             $ForkOfGitHubRepository = New-GitHubFork @forkParameters
+		# +                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		#     + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorExcep 
+		#    tion
+		#     + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorExceptio 
+		#    n,New-GitHubFork
+		# 	}
 }
 
 Describe "Deleting a GitHub repository" {
-	
-	$temporaryRepositoryName = "temporaryRepositoryForTestingTheGitHubAPI"
-	New-GitHubRepository -AccessToken $accessToken -Name $temporaryRepositoryName -OutVariable gitHubRepository
-	$login = $gitHubRepository.owner.login
+	Context "When the repository does not exists" {
 
-	Context "When the repository exists" {
+		$temporaryRepositoryName = "iflkjsdlkfjsld;ak;lasdflkadlskjafpoj'sjfalkjfsalkfjslkj"
 
-		Remove-GitHubRepository -AccessToken $accessToken -Owner $login -RepositoryName $temporaryRepositoryName -OutVariable result
+		Remove-GitHubRepository -Owner (Get-GitHubAuthenticatedUser).login -RepositoryName $temporaryRepositoryName -OutVariable result -Debug
 
-		It "Deletes the repository from GitHub" {
-			$result.StatusCode | Should Be 204
+		It "Returns the correct status code" {
+			$result.StatusCode | Should Be NotFound
 		}
 	}
 }

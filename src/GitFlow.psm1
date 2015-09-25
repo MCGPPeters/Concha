@@ -1,8 +1,13 @@
+# https://github.com/nvie/gitflow/wiki/Command-Line-Arguments
+
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'GitHub.psm1')
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'Solution.psm1')
+
 function Initialize-GitFlow {
 	[CmdletBinding()]
 	Param(
 		[Parameter(Mandatory = $true, Position = 0)]
-		[string] $Path
+		[Solution] $Solution
 	)
 	Process
 	{				
@@ -12,14 +17,64 @@ function Initialize-GitFlow {
 	}
 }
 
-function Start-Feature {
+Function Start-Feature 
+{
 	[CmdletBinding()]
-	Param())
+	Param
+	(
+		[Parameter(Mandatory = $true)]
+		[Solution] $Solution
+ 	)
 	
 	DynamicParam 
 	{
+		Get-UnassignedIssuesParameter -GitHubRepositoryName $Solution.Name -GitHubOwnerName $Solution.GitHubRepository.Name
+    }
+
+    begin {
+        # Bind the parameter to a friendly variable
+        $GitHubFeature = $PsBoundParameters[$ParameterName]
+		
+		
+		
+    }
+}
+
+
+function Finish-Feature 
+{
+	[CmdletBinding()]
+	Param
+	(
+		[Parameter(Mandatory = $true)]
+		[String] $SolutionName
+ 	)
+	DynamicParam 
+	{
+		
+    }
+	Process	
+	{
+	}	
+}
+
+Function Get-Features
+{
+
+}
+
+Function Get-UnassignedIssuesParameter
+{
+	[CmdletBinding()]
+	Param
+	(
+		[Parameter(Mandatory = $true)]
+		[Solution] $Solution
+ 	)
+	Process
+	{
 		# Set the dynamic parameters' name
-		$ParameterName = 'GitHubFeature'
+		$ParameterName = 'RelatedIssue'
 		
 		# Create the dictionary 
 		$RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
@@ -36,7 +91,7 @@ function Start-Feature {
 		$AttributeCollection.Add($ParameterAttribute)
 
 		# Generate and set the ValidateSet 
-		$arrSet = Get-GitHubIssue
+		$arrSet = Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name -Assignee None
 		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
 		# Add the ValidateSet to the attributes collection
@@ -46,12 +101,5 @@ function Start-Feature {
 		$RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
 		$RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
 		return $RuntimeParameterDictionary
-    }
-
-    begin {
-        # Bind the parameter to a friendly variable
-        $GitHubFeature = $PsBoundParameters[$ParameterName]
-		
-		
-		
-    }
+	}
+}

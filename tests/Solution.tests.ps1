@@ -6,28 +6,26 @@
 
 
 $scriptPath = $MyInvocation.MyCommand.Path
-$currentFolder = Split-Path $scriptPath
+$currentDirectory = Split-Path $scriptPath
 
-Import-Module $currentFolder\Solution.psm1
-Import-Module $currentFolder\GitHub.psm1
-
+Import-Module $currentDirectory\Solution.psm1
 
 $SolutionName = "GreenField"
 $path = 'TestDrive:\'
 
-Describe "Create the .NET Solution structure" {
+Describe "Create a new solution" {
 	
 	$expectedSolutionPath = Join-Path -Path $path -ChildPath $SolutionName
 	
 	$expectedDocumentationPath = Join-Path -Path $expectedSolutionPath -ChildPath "docs"
-	$expectedSourceFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath "src"
-	$expectedSamplesFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath "samples"
-	$expectedBuildFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath "build"
-	$expectedArtifactsFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath "artifacts"
-	$expectedTestsFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath "tests"
-	$expectedNuGetFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath ".nuget"
-	$expectedPackagesFolderPath = Join-Path -Path $expectedSolutionPath -ChildPath "packages"
-	$expectedNuGetConfigPath = Join-Path -Path $expectedNuGetFolderPath -ChildPath  "NuGet.Config"
+	$expectedSourceDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath "src"
+	$expectedSamplesDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath "samples"
+	$expectedBuildDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath "build"
+	$expectedArtifactsDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath "artifacts"
+	$expectedTestsDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath "tests"
+	$expectedNuGetDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath ".nuget"
+	$expectedPackagesDirectoryPath = Join-Path -Path $expectedSolutionPath -ChildPath "packages"
+	$expectedNuGetConfigPath = Join-Path -Path $expectedNuGetDirectoryPath -ChildPath  "NuGet.Config"
 	$absoluteNuGetConfigPath = Join-Path -Path $TestDrive -ChildPath (Split-Path -Path $expectedNuGetConfigPath -noQualifier)
 
 	Context "When the structure does not exist" {
@@ -38,36 +36,36 @@ Describe "Create the .NET Solution structure" {
 			$expectedSolutionPath | Should Exist
 		}
 
-		It "creates a docs sub folder" {
+		It "creates a docs sub directory" {
 			$expectedDocumentationPath | Should Exist
 		}
 
-		It "creates a src sub folder" {
-			$expectedSourceFolderPath | Should Exist
+		It "creates a src sub directory" {
+			$expectedSourceDirectoryPath | Should Exist
 		}
 
-		It "creates a samples sub folder" {			
-			$expectedSamplesFolderPath | Should Exist
+		It "creates a samples sub directory" {			
+			$expectedSamplesirectoryPath | Should Exist
 		}
 
-		It "creates a build sub folder" {
-			$expectedBuildFolderPath | Should Exist
+		It "creates a build sub directory" {
+			$expectedBuildDirectoryPath | Should Exist
 		}
 
-		It "creates a tests sub folder" {
-			$expectedTestsFolderPath | Should Exist
+		It "creates a tests sub directory" {
+			$expectedTestsDirectoryPath | Should Exist
 		}
 		
-		It "creates a artifacts sub folder" {
-			$expectedArtifactsFolderPath | Should Exist
+		It "creates a artifacts sub directory" {
+			$expectedArtifactsDirectoryPath | Should Exist
 		}
 
-		It "creates a .NuGet sub folder in de src path" {
-			$expectedNuGetFolderPath | Should Exist
+		It "creates a .NuGet sub directory in de src path" {
+			$expectedNuGetDirectoryPath | Should Exist
 		}
 
-		It "creates a packages sub folder in de src path" {
-			$expectedPackagesFolderPath | Should Exist
+		It "creates a packages sub directory in de src path" {
+			$expectedPackagesDirectoryPath | Should Exist
 		}
 
 		It "should ensure that a NuGet.Config is present" {
@@ -102,5 +100,4 @@ Describe "Start a open source .NET Solution" {
 	Remove-GitHubRepository -AccessToken $accessToken -Owner $login -RepositoryName $temporaryRepositoryName -OutVariable result
 }
 
-Remove-Module GitHub
 Remove-Module Solution
