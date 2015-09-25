@@ -22,18 +22,18 @@ Function Start-Feature
 	[CmdletBinding()]
 	Param
 	(
-		[Parameter(Mandatory = $true)]
+		[Parameter(Mandatory = $true, Position=1)]
 		[PSCustomObject] $Solution
  	)
 	
 	DynamicParam 
 	{
-		Get-GetValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet (Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name | Select-Object -ExpandProperty Title)
+		Get-GetValidatedDynamicParameter -ParameterName 'GitHubIssue' -Position 2 -ValidateSet (Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name | Select-Object -ExpandProperty Title)
     }
     Begin 
     {
         # Bind the parameter to a friendly variable
-        $GitHubIssue = $PsBoundParameters['GitHubIssue']
+        $GitHubIssue = $PSBoundParameters['GitHubIssue']
     }
     Process
     {
@@ -41,7 +41,7 @@ Function Start-Feature
     }
 }
 
-function Finish-Feature 
+Function Finish-Feature 
 {
 	[CmdletBinding()]
 	Param
@@ -50,7 +50,7 @@ function Finish-Feature
  	)
 	DynamicParam 
 	{
-		Get-GetValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet (Get-Features)
+		Get-GetValidatedDynamicParameter -ParameterName 'Feature' -Position 1 -ValidateSet (Get-Features)
     }
     Begin
     {
@@ -83,6 +83,8 @@ Function Get-GetValidatedDynamicParameter
 	(
 		[Parameter(Mandatory = $true)]
 		[String]$ParameterName,
+        [Parameter(Mandatory = $true)]
+		[Int]$Position,
 		[Parameter(Mandatory = $true)]
 		[string[]] $ValidateSet
  	)
@@ -97,7 +99,7 @@ Function Get-GetValidatedDynamicParameter
 		# Create and set the parameters' attributes
 		$ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
 		$ParameterAttribute.Mandatory = $true
-		$ParameterAttribute.Position = 1
+		$ParameterAttribute.Position = $Position
 
 		# Add the attributes to the attributes collection
 		$AttributeCollection.Add($ParameterAttribute)
