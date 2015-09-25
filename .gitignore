@@ -19,3 +19,4 @@ artifacts/
 .vs/Concha/v14/.suo
 *.suo
 *.user
+*.ncrunchsolution
