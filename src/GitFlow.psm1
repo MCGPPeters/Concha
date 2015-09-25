@@ -51,8 +51,13 @@ function Finish-Feature
 	{
 		Get-GetValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet (Get-Features)
     }
+    Begin
+    {
+        $Feature = $PSBoundParameters['Feature']
+    }
 	Process	
 	{
+        
 		git flow feature finish -rFkDS $Feature
 	}	
 }
@@ -97,8 +102,7 @@ Function Get-GetValidatedDynamicParameter
 		$AttributeCollection.Add($ParameterAttribute)
 
 		# Generate and set the ValidateSet 
-		$arrSet = $ValidateSet
-		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
+		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($ValidateSet)
 
 		# Add the ValidateSet to the attributes collection
 		$AttributeCollection.Add($ValidateSetAttribute)
