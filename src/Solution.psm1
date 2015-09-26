@@ -141,10 +141,10 @@
 			    RootDirectoryInfo = $SolutionDirectory
 			    DocumentationDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $DocumentationDirectoryName | Get-Item
                 SourcesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory -ChildPath $SourcesDirectoryName | Get-Item -OutVariable SourcesDirectoryInfo
-			    TestsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $TestsDirectoryName | Get-Item
-			    SamplesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $BuildDirectoryName | Get-Item
-			    BuildDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $SamplesDirectoryName | Get-Item
-			    ArtifactsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $ArtifactsDirectoryName | Get-Item
+			    TestsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $TestsDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
+			    SamplesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $SamplesDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
+			    BuildDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $BuildDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
+			    ArtifactsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $ArtifactsDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
 			    NuGetDirectoryDirectoryInfo = Join-Path -Path $SourcesDirectoryInfo.FullName -ChildPath $NuGetDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
 			    NuGetPackagesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $NugetPackagesDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
 		    }

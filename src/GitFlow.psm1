@@ -28,7 +28,17 @@ Function Start-Feature
 	
 	DynamicParam 
 	{
-		Get-GetValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet (Get-GitHubIssue -Owner $Solution.GitHubRepository.Owner.Login -RepositoryName $Solution.GitHubRepository.Name | Select-Object -ExpandProperty Title)
+        $Owner = $Solution.GitHubRepository.Owner.Login
+        $RepositoryName = $Solution.GitHubRepository.Name
+
+        $GitHubIssues = Get-GitHubIssue -Owner $Owner -RepositoryName $RepositoryName | Select-Object -ExpandProperty Number
+
+		$ValidatedDynamicParameter = New-ValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet $GitHubIssues
+
+        $RuntimeDefinedParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+        $RuntimeDefinedParameterDictionary.Add('GitHubIssue', $ValidatedDynamicParameter)
+	
+		return $RuntimeDefinedParameterDictionary
     }
     Begin 
     {
@@ -41,7 +51,7 @@ Function Start-Feature
     }
 }
 
-function Finish-Feature 
+Function Finish-Feature   
 {
 	[CmdletBinding()]
 	Param
@@ -50,7 +60,14 @@ function Finish-Feature
  	)
 	DynamicParam 
 	{
-		Get-GetValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet (Get-Features)
+        $Features = Get-Features
+
+		$ValidatedDynamicParameter = New-ValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet $Features
+
+        $RuntimeDefinedParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+        $RuntimeDefinedParameterDictionary.Add('Feature', $ValidatedDynamicParameter)
+	
+		return $RuntimeDefinedParameterDictionary
     }
     Begin
     {
@@ -75,9 +92,9 @@ Function Get-Features
 	}
 }
 
-Function Get-GetValidatedDynamicParameter
+Function New-ValidatedDynamicParameter
 {
-	[OutputType([System.Management.Automation.RuntimeDefinedParameterDictionary])]
+	[OutputType([System.Management.Automation.RuntimeDefinedParameter])]
 	[CmdletBinding()]
 	Param
 	(
@@ -110,7 +127,6 @@ Function Get-GetValidatedDynamicParameter
 
 		# Create and return the dynamic parameter
 		$RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
-		$RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
-		return $RuntimeParameterDictionary
+		$RuntimeParameter
 	}
 }
