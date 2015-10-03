@@ -126,9 +126,9 @@
 	    Param 
         (
             [Parameter(Mandatory = $true)]
-		    [System.IO.DirectoryInfo] $SolutionDirectory,
-		    [Parameter(Mandatory = $true)]
-		    [string] $GitHubOwnerName
+		    [string] $GitHubOwnerName,
+            [Parameter(Mandatory = $false)]
+		    [System.IO.DirectoryInfo] $SolutionDirectory = (Get-Item -Path '.')
 	    )
         Process
         {
@@ -141,12 +141,12 @@
 			    RootDirectoryInfo = $SolutionDirectory
 			    DocumentationDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $DocumentationDirectoryName | Get-Item
                 SourcesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory -ChildPath $SourcesDirectoryName | Get-Item -OutVariable SourcesDirectoryInfo
-			    TestsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $TestsDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
-			    SamplesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $SamplesDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
-			    BuildDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $BuildDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
-			    ArtifactsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $ArtifactsDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
-			    NuGetDirectoryDirectoryInfo = Join-Path -Path $SourcesDirectoryInfo.FullName -ChildPath $NuGetDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
-			    NuGetPackagesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $NugetPackagesDirectoryName | Get-Item -ErrorAction SilentlyContinue | New-Item -ItemType Directory -Path {$_.Fullname}
+			    TestsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $TestsDirectoryName | Get-Item -ErrorAction SilentlyContinue
+			    SamplesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $SamplesDirectoryName | Get-Item -ErrorAction SilentlyContinue
+			    BuildDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $BuildDirectoryName | Get-Item -ErrorAction SilentlyContinue
+			    ArtifactsDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $ArtifactsDirectoryName | Get-Item -ErrorAction SilentlyContinue
+			    NuGetDirectoryDirectoryInfo = Join-Path -Path $SourcesDirectoryInfo.FullName -ChildPath $NuGetDirectoryName | Get-Item -ErrorAction SilentlyContinue
+			    NuGetPackagesDirectoryDirectoryInfo = Join-Path -Path $SolutionDirectory.FullName -ChildPath $NugetPackagesDirectoryName | Get-Item -ErrorAction SilentlyContinue
 		    }
             $Solution.GitHubRepository = Get-GitHubRepository -RepositoryName $solutionName -OwnerName $GitHubOwnerName
 

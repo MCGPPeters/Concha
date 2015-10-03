@@ -22,33 +22,34 @@ Function Start-Feature
 	[CmdletBinding()]
 	Param
 	(
-		[Parameter(Mandatory = $true)]
-		[PSCustomObject] $Solution
+        [Parameter(Mandatory = $false)]
+		[string] $GitHubAccessToken,
+        [Parameter(Mandatory = $true)]
+		[String] $GitHubOwnerName,
+        [Parameter(Mandatory = $true)]
+        [String] $GitHubRepositoryName
  	)
-	
-	DynamicParam 
-	{
-        $Owner = $Solution.GitHubRepository.Owner.Login
-        $RepositoryName = $Solution.GitHubRepository.Name
+	DynamicParam
+    {
+        if(-not $GitHubAccessToken)
+        {
+            $GitHubAccessToken = {Get-GitHubAccessToken}.Invoke()
+        }
 
-        $GitHubIssues = Get-GitHubIssue -Owner $Owner -RepositoryName $RepositoryName | Select-Object -ExpandProperty Number
+        $GitHubIssues = Get-GitHubIssue -AccessToken $GitHubAccessToken -Owner $GitHubOwnerName -RepositoryName $GitHubRepositoryName | Foreach-Object -Process {'"#' + $_.Number + ' ' + $_.Title + '"'}
 
-		$ValidatedDynamicParameter = New-ValidatedDynamicParameter -ParameterName 'GitHubIssue' -ValidateSet $GitHubIssues
-
-        $RuntimeDefinedParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-        $RuntimeDefinedParameterDictionary.Add('GitHubIssue', $ValidatedDynamicParameter)
-	
-		return $RuntimeDefinedParameterDictionary
+		New-DynamicParameter -Name 'GitHubIssue' -Mandatory -HelpMessage 'Select the GitHub issue that corresponds to the feature you wish to start development on' -ValidateSet $GitHubIssues
     }
     Begin 
     {
-        # Bind the parameter to a friendly variable
-        $GitHubIssue = $PsBoundParameters['GitHubIssue']
+        $GitHubIssue = $PSBoundParameters['GitHubIssue']
     }
     Process
     {
         git flow feature start -F $GitHubIssue
+        git branch 
     }
+    End{}
 }
 
 Function Finish-Feature   
@@ -62,12 +63,7 @@ Function Finish-Feature
 	{
         $Features = Get-Features
 
-		$ValidatedDynamicParameter = New-ValidatedDynamicParameter -ParameterName 'Feature' -ValidateSet $Features
-
-        $RuntimeDefinedParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-        $RuntimeDefinedParameterDictionary.Add('Feature', $ValidatedDynamicParameter)
-	
-		return $RuntimeDefinedParameterDictionary
+		New-DynamicParameter -ParameterName 'Feature' -Mandatory -HelpMessage 'Select the feature branch to finish. Commits in the branch will be squached and the related GitHub issue will be closed' -ValidateSet $Features
     }
     Begin
     {
@@ -75,14 +71,14 @@ Function Finish-Feature
     }
 	Process	
 	{
-        
-		git flow feature finish -rFS $Feature
+        git flow feature finish -rFS $Feature
 	}	
+    End{}
 }
 
 Function Get-Features
 {
-	[OutputType([string[]])]
+	[OutputType([String[]])]
 	[CmdletBinding()]
 	Param()
 
@@ -92,41 +88,72 @@ Function Get-Features
 	}
 }
 
-Function New-ValidatedDynamicParameter
+Function New-DynamicParameter
 {
 	[OutputType([System.Management.Automation.RuntimeDefinedParameter])]
 	[CmdletBinding()]
 	Param
 	(
 		[Parameter(Mandatory = $true)]
-		[String]$ParameterName,
-		[Parameter(Mandatory = $true)]
-		[string[]] $ValidateSet
- 	)
-	Process
-	{		
-		# Create the dictionary 
-		$RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+		[String] $Name,
+        [Parameter(Mandatory = $false)]
+        [string] $ParameterSetName = '__AllParameterSets',
+        [Parameter(Mandatory = $false)]
+		[Type] $Type = [String],
+        [Parameter(Mandatory = $false)]
+        [Switch] $Mandatory,
+        [Parameter(Mandatory = $false)]
+        [Int] $Position,
+        [Parameter(Mandatory = $false)]
+        [Switch] $ValueFromPipelineByPropertyName,
+        [Parameter(Mandatory = $false)]
+		[String] $HelpMessage,
+		[Parameter(Mandatory = $false)]
+		[String[]] $ValidateSet,
+        [Parameter(Mandatory = $false)]
+        [System.Management.Automation.RuntimeDefinedParameterDictionary] $RuntimeDefinedParameterDictionary
+     )
+     Begin
+     {
+        $ParameterAttribute = New-Object -TypeName System.Management.Automation.ParameterAttribute
+        $ParameterAttribute.ParameterSetName = $ParameterSetName
+        if($Mandatory)
+        {
+            $ParameterAttribute.Mandatory = $True
+        }
+        if($ValueFromPipelineByPropertyName)
+        {
+            $ParameterAttribute.ValueFromPipelineByPropertyName = $True
+        }
+        if($HelpMessage)
+        {
+            $ParameterAttribute.HelpMessage = $HelpMessage
+        }
+        if($Position)
+        {
+            $ParameterAttribute.Position = $Position
+        }
+ 
+        $AttributeCollection = New-Object -TypeName 'Collections.ObjectModel.Collection[System.Attribute]'
+        $AttributeCollection.Add($ParameterAttribute)
+    
+        if($ValidateSet)
+        {
+            $ParamOptions = New-Object -TypeName System.Management.Automation.ValidateSetAttribute -ArgumentList $ValidateSet
+            $AttributeCollection.Add($ParamOptions)
+        }
 
-		# Create the collection of attributes
-		$AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-		
-		# Create and set the parameters' attributes
-		$ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
-		$ParameterAttribute.Mandatory = $true
-		$ParameterAttribute.Position = 1
-
-		# Add the attributes to the attributes collection
-		$AttributeCollection.Add($ParameterAttribute)
-
-		# Generate and set the ValidateSet 
-		$ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($ValidateSet)
-
-		# Add the ValidateSet to the attributes collection
-		$AttributeCollection.Add($ValidateSetAttribute)
-
-		# Create and return the dynamic parameter
-		$RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
-		$RuntimeParameter
-	}
+        $Parameter = New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList @($Name, $Type, $AttributeCollection)
+    
+        if($RuntimeDefinedParameterDictionary)
+        {
+            $RuntimeDefinedParameterDictionary.Add($Name, $Parameter)
+        }
+        else
+        {
+            $RuntimeDefinedParameterDictionary = New-Object -TypeName System.Management.Automation.RuntimeDefinedParameterDictionary
+            $RuntimeDefinedParameterDictionary.Add($Name, $Parameter)
+            $RuntimeDefinedParameterDictionary
+        }
+    }
 }
