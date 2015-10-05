@@ -36,18 +36,18 @@ Function Start-Feature
             $GitHubAccessToken = {Get-GitHubAccessToken}.Invoke()
         }
 
-        $GitHubIssues = Get-GitHubIssue -AccessToken $GitHubAccessToken -Owner $GitHubOwnerName -RepositoryName $GitHubRepositoryName | Foreach-Object -Process {'"#' + $_.Number + ' ' + $_.Title + '"'}
+        $GitHubIssues = Get-GitHubIssue -AccessToken $GitHubAccessToken -Owner $GitHubOwnerName -RepositoryName $GitHubRepositoryName | Foreach-Object -Process {"`"#$($_.Number) $($_.Title)`""}
 
 		New-DynamicParameter -Name 'GitHubIssue' -Mandatory -HelpMessage 'Select the GitHub issue that corresponds to the feature you wish to start development on' -ValidateSet $GitHubIssues
     }
     Begin 
     {
-        $GitHubIssue = $PSBoundParameters['GitHubIssue']
+        $GitHubIssue = [string]$PSBoundParameters['GitHubIssue']
     }
     Process
     {
-        git flow feature start -F $GitHubIssue
-        git branch 
+        $GitHubIssueNumber = $GitHubIssue.Split(' ')[0]
+        Invoke-Expression -Command "git flow feature start $BranchNameIncludingIssueNumber"
     }
     End{}
 }
@@ -155,5 +155,67 @@ Function New-DynamicParameter
             $RuntimeDefinedParameterDictionary.Add($Name, $Parameter)
             $RuntimeDefinedParameterDictionary
         }
+    }
+}
+
+Function TabExpansion2
+{
+    [CmdletBinding(DefaultParameterSetName = 'ScriptInputSet')]
+    Param(
+        [Parameter(ParameterSetName = 'ScriptInputSet', Mandatory = $true, Position = 0)]
+        [string] $inputScript,
+    
+        [Parameter(ParameterSetName = 'ScriptInputSet', Mandatory = $true, Position = 1)]
+        [int] $cursorColumn,
+
+        [Parameter(ParameterSetName = 'AstInputSet', Mandatory = $true, Position = 0)]
+        [System.Management.Automation.Language.Ast] $ast,
+
+        [Parameter(ParameterSetName = 'AstInputSet', Mandatory = $true, Position = 1)]
+        [System.Management.Automation.Language.Token[]] $tokens,
+
+        [Parameter(ParameterSetName = 'AstInputSet', Mandatory = $true, Position = 2)]
+        [System.Management.Automation.Language.IScriptPosition] $positionOfCursor,
+    
+        [Parameter(ParameterSetName = 'ScriptInputSet', Position = 2)]
+        [Parameter(ParameterSetName = 'AstInputSet', Position = 3)]
+        [Hashtable] $options = $null
+    )
+
+    End
+    {
+        if ($psCmdlet.ParameterSetName -eq 'ScriptInputSet')
+        {
+            $completion = [System.Management.Automation.CommandCompletion]::CompleteInput(
+                $inputScript,
+                $cursorColumn,
+                $options)
+        }
+        else
+        {
+            $completion = [System.Management.Automation.CommandCompletion]::CompleteInput(
+                $ast,
+                $tokens,
+                $positionOfCursor,
+                $options)
+        }
+
+        $count = $completion.CompletionMatches.Count
+        for ($i = 0; $i -lt $count; $i++)
+        {
+            $result = $completion.CompletionMatches[$i]
+
+            if ($result.CompletionText -match '\s')
+            {
+                $completion.CompletionMatches[$i] = New-Object System.Management.Automation.CompletionResult(
+                    "'$($result.CompletionText)'",
+                    $result.ListItemText,
+                    $result.ResultType,
+                    $result.ToolTip
+                )
+            }
+        }
+
+        return $completion
     }
 }
